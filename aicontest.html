@@ -1,0 +1,1065 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Coup AI Contest - Monte Carlo Simulation</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+            color: #fff;
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+
+        h1 {
+            text-align: center;
+            margin-bottom: 30px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+        }
+
+        .setup-screen {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border-radius: 15px;
+            padding: 40px;
+            max-width: 500px;
+            margin: 0 auto;
+        }
+
+        .setup-screen h2 {
+            margin-bottom: 20px;
+        }
+
+        .setup-screen label {
+            display: block;
+            margin-bottom: 10px;
+            font-size: 18px;
+        }
+
+        .setup-screen select,
+        .setup-screen input,
+        .setup-screen button {
+            width: 100%;
+            padding: 12px;
+            font-size: 16px;
+            border-radius: 8px;
+            border: none;
+            margin-bottom: 20px;
+        }
+
+        .setup-screen select,
+        .setup-screen input {
+            background: white;
+            color: #333;
+        }
+
+        .setup-screen button {
+            background: #28a745;
+            color: white;
+            cursor: pointer;
+            font-weight: bold;
+            transition: background 0.3s;
+        }
+
+        .setup-screen button:hover {
+            background: #218838;
+        }
+
+        .setup-screen button:disabled {
+            background: #6c757d;
+            cursor: not-allowed;
+        }
+
+        .simulation-screen {
+            display: none;
+        }
+
+        .progress-section {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border-radius: 15px;
+            padding: 30px;
+            margin-bottom: 20px;
+        }
+
+        .progress-bar {
+            width: 100%;
+            height: 30px;
+            background: rgba(0, 0, 0, 0.3);
+            border-radius: 15px;
+            overflow: hidden;
+            margin-bottom: 15px;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #28a745, #20c997);
+            transition: width 0.3s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+        }
+
+        .stats-section {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border-radius: 15px;
+            padding: 30px;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+
+        .stat-card {
+            background: rgba(0, 0, 0, 0.2);
+            padding: 20px;
+            border-radius: 10px;
+            text-align: center;
+        }
+
+        .stat-label {
+            font-size: 14px;
+            color: rgba(255, 255, 255, 0.7);
+            margin-bottom: 5px;
+        }
+
+        .stat-value {
+            font-size: 32px;
+            font-weight: bold;
+            color: #ffd700;
+        }
+
+        .results-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+
+        .results-table th,
+        .results-table td {
+            padding: 12px;
+            text-align: left;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .results-table th {
+            background: rgba(0, 0, 0, 0.3);
+            font-weight: bold;
+        }
+
+        .results-table tr:hover {
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        .winner-badge {
+            display: inline-block;
+            background: #ffd700;
+            color: #333;
+            padding: 2px 8px;
+            border-radius: 5px;
+            font-weight: bold;
+            margin-left: 10px;
+        }
+
+        .action-buttons {
+            display: flex;
+            gap: 10px;
+            margin-top: 20px;
+        }
+
+        .action-buttons button {
+            flex: 1;
+            padding: 12px;
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .btn-primary {
+            background: #007bff;
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background: #0056b3;
+        }
+
+        .btn-secondary {
+            background: #6c757d;
+            color: white;
+        }
+
+        .btn-secondary:hover {
+            background: #545b62;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🎴 COUP AI CONTEST 🎴</h1>
+
+        <!-- Setup Screen -->
+        <div class="setup-screen" id="setupScreen">
+            <h2>Monte Carlo Simulation Setup</h2>
+            <label for="playerCount">Number of AI Players (2-5):</label>
+            <select id="playerCount">
+                <option value="2">2 Players</option>
+                <option value="3" selected>3 Players</option>
+                <option value="4">4 Players</option>
+                <option value="5">5 Players</option>
+            </select>
+
+            <label for="gameCount">Number of Games to Simulate:</label>
+            <input type="number" id="gameCount" min="10" max="10000" value="1000" step="10">
+
+            <div id="aiSelectionContainer" style="display: none;">
+                <h3 style="margin-top: 20px;">Select AI Type for Each Player</h3>
+                <div id="aiSelectors"></div>
+
+                <div style="margin-top: 15px; margin-bottom: 15px;">
+                    <label style="margin-bottom: 10px; display: block;">Quick Selection:</label>
+                    <div style="display: flex; gap: 10px; flex-wrap: wrap;">
+                        <button type="button" onclick="setAllAI('random')" style="flex: 1; min-width: 120px; padding: 8px; background: #6c757d; color: white; border: none; border-radius: 5px; cursor: pointer; font-size: 14px;">All Random</button>
+                        <button type="button" onclick="setAllAI('statistical')" style="flex: 1; min-width: 120px; padding: 8px; background: #6c757d; color: white; border: none; border-radius: 5px; cursor: pointer; font-size: 14px;">All Statistical</button>
+                        <button type="button" onclick="setAllAI('minimax')" style="flex: 1; min-width: 120px; padding: 8px; background: #6c757d; color: white; border: none; border-radius: 5px; cursor: pointer; font-size: 14px;">All Challenger</button>
+                        <button type="button" onclick="setFaceOff()" style="flex: 1; min-width: 120px; padding: 8px; background: #007bff; color: white; border: none; border-radius: 5px; cursor: pointer; font-size: 14px;">Face-Off (One Each)</button>
+                    </div>
+                </div>
+            </div>
+
+            <button onclick="startSimulation()">Start Simulation</button>
+        </div>
+
+        <!-- Simulation Screen -->
+        <div class="simulation-screen" id="simulationScreen">
+            <div class="progress-section">
+                <h2>Simulation Progress</h2>
+                <div class="progress-bar">
+                    <div class="progress-fill" id="progressFill" style="width: 0%">0%</div>
+                </div>
+                <div style="text-align: center; font-size: 18px;">
+                    Game <span id="currentGame">0</span> of <span id="totalGames">0</span>
+                </div>
+            </div>
+
+            <div class="stats-section">
+                <h2>Results</h2>
+                <div class="stats-grid" id="statsGrid"></div>
+
+                <h3 style="margin-top: 30px;">Detailed Statistics</h3>
+                <table class="results-table">
+                    <thead>
+                        <tr>
+                            <th>Player</th>
+                            <th>Wins</th>
+                            <th>Win Rate</th>
+                            <th>Avg. Coins</th>
+                            <th>Avg. Turns Survived</th>
+                        </tr>
+                    </thead>
+                    <tbody id="resultsTable"></tbody>
+                </table>
+
+                <div class="action-buttons">
+                    <button class="btn-primary" onclick="startSimulation()">Run Again</button>
+                    <button class="btn-secondary" onclick="resetSimulation()">New Setup</button>
+                    <button class="btn-secondary" id="downloadLogBtn" style="display: none;">Download Logs</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Game State
+        const CHARACTERS = ['duke', 'assassin', 'captain', 'ambassador', 'contessa'];
+        let simulationConfig = {
+            playerCount: 0,
+            gameCount: 0,
+            currentGame: 0
+        };
+        let statistics = {};
+        let detailedLogOutput = ""; // To store text for the log file
+        let gameTurnLog = []; // To store blow-by-blow logs for a single game
+        let logStatsPrepended = false;
+
+        function logTurnEvent(message) {
+            gameTurnLog.push(message);
+        }
+
+        function getAITypeName(aiType) {
+            const names = { 'random': 'Random', 'statistical': 'Statistical', 'minimax': 'Challenger', 'minimax_legacy': 'Minimax (Legacy)' };
+            return names[aiType] || aiType;
+        }
+
+        // Game state for a single game
+        let gameState = {
+            players: [],
+            currentPlayerIndex: 0,
+            deck: [],
+            pendingAction: null,
+            gameOver: false,
+            turnCount: 0
+        };
+
+        // ===== AI ENGINE CLASSES =====
+
+        // GameHistory - tracks game events for statistical analysis
+        class GameHistory {
+            constructor() {
+                this.revealedCards = new Map();
+                this.actionHistory = [];
+                this.failedChallenges = new Map();
+                this.successfulChallenges = new Map();
+            }
+
+            reset() {
+                this.revealedCards.clear();
+                this.actionHistory = [];
+                this.failedChallenges.clear();
+                this.successfulChallenges.clear();
+            }
+
+            recordAction(turn, playerId, action, result) {
+                this.actionHistory.push({ turn, playerId, action, ...result });
+            }
+
+            recordCardReveal(playerId, card) {
+                if (!this.revealedCards.has(playerId)) {
+                    this.revealedCards.set(playerId, []);
+                }
+                this.revealedCards.get(playerId).push(card);
+            }
+
+            recordChallenge(challengerId, claimantId, action, success) {
+                const map = success ? this.failedChallenges : this.successfulChallenges;
+                if (!map.has(claimantId)) {
+                    map.set(claimantId, new Map());
+                }
+                const actionMap = map.get(claimantId);
+                actionMap.set(action, (actionMap.get(action) || 0) + 1);
+            }
+        }
+    </script>
+
+    <!-- AI Engine Scripts -->
+    <script src="probability-calculator.js"></script>
+    <script src="ai-engine.js"></script>
+    <script src="random-ai.js"></script>
+    <script src="statistical-ai.js"></script>
+    <script src="policy.js"></script>
+    <script src="challenger-ai.js"></script>
+    <script src="minimax-ai.js"></script>
+
+    <script>
+        // Note: AI Engine classes (ProbabilityCalculator, AIEngine, RandomAI, StatisticalAI, ChallengerAI)
+        // are now imported from external JS files
+
+
+        // Setup AI selection event listener
+        document.getElementById('playerCount').addEventListener('change', function() {
+            const playerCount = parseInt(this.value);
+            const container = document.getElementById('aiSelectors');
+            container.innerHTML = '';
+            document.getElementById('aiSelectionContainer').style.display = 'block';
+
+            for (let i = 0; i < playerCount; i++) {
+                const wrapper = document.createElement('div');
+                wrapper.style.marginBottom = '15px';
+                wrapper.innerHTML = `
+                    <label for="ai-type-${i}">AI ${i + 1} Type:</label>
+                    <select id="ai-type-${i}" class="ai-type-selector">
+                        <option value="random">Random AI (Baseline)</option>
+                        <option value="statistical">Statistical AI (Probability-Based)</option>
+                        <option value="minimax">Challenger AI (Game Tree Search)</option>
+                        <option value="minimax_legacy">Minimax AI (Legacy)</option>
+                    </select>
+                `;
+                container.appendChild(wrapper);
+            }
+        });
+
+        // Quick selection functions
+        function setAllAI(aiType) {
+            const playerCount = parseInt(document.getElementById('playerCount').value);
+            for (let i = 0; i < playerCount; i++) {
+                const selector = document.getElementById(`ai-type-${i}`);
+                if (selector) {
+                    selector.value = aiType;
+                }
+            }
+        }
+
+        function setFaceOff() {
+            const playerCount = parseInt(document.getElementById('playerCount').value);
+            const aiTypes = ['random', 'statistical', 'minimax'];
+
+            for (let i = 0; i < playerCount; i++) {
+                const selector = document.getElementById(`ai-type-${i}`);
+                if (selector) {
+                    // Cycle through AI types
+                    selector.value = aiTypes[i % aiTypes.length];
+                }
+            }
+        }
+
+        function startSimulation() {
+            const playerCount = parseInt(document.getElementById('playerCount').value);
+            const gameCount = parseInt(document.getElementById('gameCount').value);
+
+            // Collect AI types
+            const aiTypes = [];
+            for (let i = 0; i < playerCount; i++) {
+                const selector = document.getElementById(`ai-type-${i}`);
+                aiTypes.push(selector ? selector.value : 'random');
+            }
+
+            simulationConfig.playerCount = playerCount;
+            simulationConfig.gameCount = gameCount;
+            simulationConfig.aiTypes = aiTypes;
+            simulationConfig.currentGame = 0;
+            logStatsPrepended = false;
+            detailedLogOutput = `COUP AI CONTEST GAME LOGS\n=========================\n\n` +
+                `Total Games Simulated: ${gameCount}\n\n` +
+                `--- AI Contestants ---\n` +
+                aiTypes.map((aiType, index) => `- AI ${index + 1}: ${getAITypeName(aiType)}`).join('\n') +
+                `\n\n`;
+
+            // Initialize statistics with AI types
+            statistics = {};
+            for (let i = 0; i < playerCount; i++) {
+                statistics[i] = {
+                    wins: 0,
+                    totalCoins: 0,
+                    totalTurns: 0,
+                    gamesPlayed: 0,
+                    aiType: aiTypes[i]
+                };
+            }
+
+            // Switch to simulation screen
+            document.getElementById('setupScreen').style.display = 'none';
+            document.getElementById('simulationScreen').style.display = 'block';
+            document.getElementById('totalGames').textContent = gameCount;
+
+            // Start running games
+            runNextGame();
+        }
+
+        async function runNextGame() {
+            if (simulationConfig.currentGame >= simulationConfig.gameCount) {
+                displayFinalResults();
+                return;
+            }
+
+            simulationConfig.currentGame++;
+            updateProgress();
+
+            // Initialize and run a single game
+            initializeGame();
+            await runGameToCompletion();
+
+            // Update stats every 100 iterations if total > 100
+            if (simulationConfig.gameCount > 100 && simulationConfig.currentGame % 100 === 0) {
+                displayFinalResults();
+            }
+
+            // Use setTimeout to prevent blocking and allow UI updates
+            setTimeout(runNextGame, 0);
+        }
+
+        function initializeGame() {
+            gameTurnLog = []; // Reset for new game
+            logTurnEvent(`\n--- GAME ${simulationConfig.currentGame} / ${simulationConfig.gameCount} ---\n`);
+
+            // Create deck
+            gameState.deck = [];
+            CHARACTERS.forEach(char => {
+                for (let i = 0; i < 3; i++) {
+                    gameState.deck.push(char);
+                }
+            });
+            shuffleDeck();
+
+            // Create players with AI engines
+            gameState.players = [];
+            for (let i = 0; i < simulationConfig.playerCount; i++) {
+                const aiType = simulationConfig.aiTypes[i];
+                let aiEngine;
+
+                switch(aiType) {
+                    case 'random':
+                        aiEngine = new RandomAI(i, aiType);
+                        break;
+                    case 'statistical':
+                        aiEngine = new StatisticalAI(i, aiType);
+                        break;
+                    case 'minimax':
+                        aiEngine = new ChallengerAI(i, aiType);
+                        break;
+                    case 'minimax_legacy':
+                        aiEngine = new MinimaxAI(i, aiType);
+                        break;
+                    default:
+                        aiEngine = new RandomAI(i, aiType);
+                }
+
+                gameState.players.push({
+                    id: i,
+                    name: `AI ${i + 1}`,
+                    coins: 2,
+                    cards: [
+                        { character: gameState.deck.pop(), revealed: false },
+                        { character: gameState.deck.pop(), revealed: false }
+                    ],
+                    eliminated: false,
+                    eliminatedOnTurn: null,
+                    aiEngine: aiEngine,
+                    aiType: aiType
+                });
+            }
+
+            // Initialize game history
+            gameState.history = new GameHistory();
+
+            gameState.currentPlayerIndex = Math.floor(Math.random() * simulationConfig.playerCount);
+            gameState.gameOver = false;
+            gameState.turnCount = 0;
+            gameState.pendingAction = null;
+        }
+
+        function shuffleDeck() {
+            for (let i = gameState.deck.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [gameState.deck[i], gameState.deck[j]] = [gameState.deck[j], gameState.deck[i]];
+            }
+        }
+
+        function shuffleArray(array) {
+            // Fisher-Yates shuffle - proper randomization
+            for (let i = array.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [array[i], array[j]] = [array[j], array[i]];
+            }
+        }
+
+        async function runGameToCompletion() {
+            let maxTurns = 1000; // Safety limit
+            let turnsSinceYield = 0;
+
+            while (!gameState.gameOver && maxTurns > 0) {
+                takeTurn();
+                maxTurns--;
+                turnsSinceYield++;
+
+                // Yield to browser every 10 turns to keep UI responsive
+                if (turnsSinceYield >= 10) {
+                    await new Promise(resolve => setTimeout(resolve, 0));
+                    turnsSinceYield = 0;
+                }
+            }
+
+            // Record statistics
+            recordGameResults();
+        }
+
+        function takeTurn() {
+            gameState.turnCount++;
+            const currentPlayer = gameState.players[gameState.currentPlayerIndex];
+            const cards = currentPlayer.cards.filter(c => !c.revealed).map(c => c.character).join(', ');
+            logTurnEvent(`\nTurn ${gameState.turnCount} | Player ${currentPlayer.id + 1} (${getAITypeName(currentPlayer.aiType)}) | Coins: ${currentPlayer.coins}, Influence: [${cards}]`);
+
+            if (currentPlayer.eliminated) {
+                nextTurn();
+                return;
+            }
+
+            // AI chooses an action
+            const action = chooseAction(currentPlayer);
+            executeAction(action);
+        }
+
+        function chooseAction(player) {
+            return player.aiEngine.chooseAction(player, gameState, gameState.history);
+        }
+
+        function executeAction(actionObj) {
+            const action = actionObj.action;
+            const targetId = actionObj.targetId;
+            const player = gameState.players[gameState.currentPlayerIndex];
+
+            const actionString = actionObj.targetId !== null && actionObj.targetId !== undefined ? `${action} on Player ${actionObj.targetId + 1}` : action;
+            logTurnEvent(`  - Action: ${actionString}`);
+
+            gameState.pendingAction = {
+                action: action,
+                playerId: gameState.currentPlayerIndex,
+                targetId: targetId
+            };
+
+            // Challenge phase
+            if (['tax', 'assassinate', 'steal', 'exchange'].includes(action)) {
+                const otherPlayers = gameState.players.filter((p, i) => p.id !== player.id && !p.eliminated);
+                // Randomize challenge order to prevent positional bias
+                shuffleArray(otherPlayers);
+
+                for (const challenger of otherPlayers) {
+                    const shouldChallenge = challenger.aiEngine.decideChallengeAction(
+                        action,
+                        player.id,
+                        gameState,
+                        gameState.history
+                    );
+
+                    if (shouldChallenge) {
+                        logTurnEvent(`  - Challenged by Player ${challenger.id + 1}.`);
+                        const challengeSuccess = resolveChallenge(challenger.id, player.id);
+                        gameState.history.recordChallenge(challenger.id, player.id, action, !challengeSuccess);
+
+                        if (challengeSuccess) {
+                            gameState.history.recordAction(gameState.turnCount, player.id, action, {
+                                challenged: true, success: false
+                            });
+                            return;
+                        } else {
+                            gameState.history.recordAction(gameState.turnCount, player.id, action, {
+                                challenged: true, success: true
+                            });
+                        }
+                        break;
+                    }
+                }
+            }
+
+            // Block phase
+            if (action === 'foreign-aid') {
+                const otherPlayers = gameState.players.filter((p, i) => p.id !== player.id && !p.eliminated);
+                // Randomize block order to prevent positional bias
+                shuffleArray(otherPlayers);
+                for (const blocker of otherPlayers) {
+                    if (blocker.aiEngine.decideBlockAction(action, player.id, gameState, gameState.history)) {
+                        logTurnEvent(`  - Blocked by Player ${blocker.id + 1} (claiming duke). Action fails.`);
+                        // Foreign aid can only be blocked by duke
+                        gameState.history.recordAction(gameState.turnCount, player.id, action, {
+                            blocked: true, success: false
+                        });
+                        gameState.pendingAction = null;
+                        nextTurn();
+                        return;
+                    }
+                }
+            } else if ((action === 'assassinate' || action === 'steal') && targetId !== null) {
+                const target = gameState.players[targetId];
+                if (!target.eliminated && target.aiEngine.decideBlockAction(action, player.id, gameState, gameState.history)) {
+                    // AI decides which character to claim when blocking
+                    const blockChar = target.aiEngine.decideBlockClaim(action, player.id, gameState, gameState.history);
+                    logTurnEvent(`  - Blocked by Player ${target.id + 1} (claiming ${blockChar}). Action fails.`);
+
+                    gameState.history.recordAction(gameState.turnCount, player.id, action, {
+                        blocked: true, success: false
+                    });
+                    gameState.pendingAction = null;
+                    nextTurn();
+                    return;
+                }
+            }
+
+            gameState.history.recordAction(gameState.turnCount, player.id, action, {
+                challenged: false, blocked: false, success: true
+            });
+
+            resolveAction();
+        }
+
+        function resolveChallenge(challengerId, claimantId) {
+            const claimant = gameState.players[claimantId];
+            const challenger = gameState.players[challengerId];
+            const action = gameState.pendingAction.action;
+
+            let requiredCharacter = '';
+            switch(action) {
+                case 'tax': requiredCharacter = 'duke'; break;
+                case 'assassinate': requiredCharacter = 'assassin'; break;
+                case 'steal': requiredCharacter = 'captain'; break;
+                case 'exchange': requiredCharacter = 'ambassador'; break;
+            }
+
+            const hasCard = claimant.cards.some(c => !c.revealed && c.character === requiredCharacter);
+
+            if (hasCard) {
+                logTurnEvent(`    - Challenge FAILED. Player ${claimant.id + 1} had ${requiredCharacter}.`);
+                // Claimant wins, challenger loses influence
+                const cardIndex = claimant.cards.findIndex(c => !c.revealed && c.character === requiredCharacter);
+                gameState.deck.push(claimant.cards[cardIndex].character);
+                shuffleDeck();
+                claimant.cards[cardIndex].character = gameState.deck.pop();
+
+                loseInfluence(challenger);
+                return false; // Action proceeds
+            } else {
+                logTurnEvent(`    - Challenge SUCCEEDED. Player ${claimant.id + 1} was bluffing.`);
+                // Claimant loses, action fails
+                if (action === 'assassinate') {
+                    logTurnEvent(`    - Player ${claimant.id + 1} gets 3 coins refunded.`);
+                    claimant.coins += 3;
+                }
+                loseInfluence(claimant);
+                gameState.pendingAction = null;
+                nextTurn();
+                return true; // Action blocked
+            }
+        }
+
+        function resolveAction() {
+            const action = gameState.pendingAction.action;
+            const player = gameState.players[gameState.pendingAction.playerId];
+            const targetId = gameState.pendingAction.targetId;
+
+            switch(action) {
+                case 'income':
+                    player.coins += 1;
+                    logTurnEvent(`    - Result: Player ${player.id + 1} coins now ${player.coins}.`);
+                    break;
+
+                case 'foreign-aid':
+                    player.coins += 2;
+                    logTurnEvent(`    - Result: Player ${player.id + 1} coins now ${player.coins}.`);
+                    break;
+
+                case 'coup':
+                    player.coins -= 7;
+                    logTurnEvent(`    - Result: Player ${player.id + 1} coins now ${player.coins}.`);
+                    const coupTarget = gameState.players[targetId];
+                    loseInfluence(coupTarget);
+                    break;
+
+                case 'tax':
+                    player.coins += 3;
+                    logTurnEvent(`    - Result: Player ${player.id + 1} coins now ${player.coins}.`);
+                    break;
+
+                case 'assassinate':
+                    player.coins -= 3;
+                    logTurnEvent(`    - Result: Player ${player.id + 1} coins now ${player.coins}.`);
+                    const assassTarget = gameState.players[targetId];
+                    loseInfluence(assassTarget);
+                    break;
+
+                case 'steal':
+                    const stealTarget = gameState.players[targetId];
+                    const stolen = Math.min(2, stealTarget.coins);
+                    stealTarget.coins -= stolen;
+                    player.coins += stolen;
+                    logTurnEvent(`    - Result: Player ${player.id + 1} stole ${stolen} from Player ${targetId + 1}.`);
+                    break;
+
+                case 'exchange':
+                    const oldCards = player.cards.filter(c => !c.revealed).map(c=>c.character);
+                    logTurnEvent(`    - Player ${player.id + 1} exchanges [${oldCards.join(', ')}].`);
+                    const keptCards = player.cards.filter(c => !c.revealed);
+                    player.cards = player.cards.filter(c => c.revealed);
+                    gameState.deck.push(...keptCards.map(c => c.character));
+                    shuffleDeck();
+                    for (let i = 0; i < keptCards.length; i++) {
+                        if (gameState.deck.length > 0) {
+                           player.cards.push({ character: gameState.deck.pop(), revealed: false });
+                        }
+                    }
+                    const newCards = player.cards.filter(c => !c.revealed).map(c=>c.character);
+                    logTurnEvent(`    - Result: Player ${player.id + 1} now has [${newCards.join(', ')}].`);
+                    break;
+            }
+
+            gameState.pendingAction = null;
+            checkGameOver();
+            if (!gameState.gameOver) {
+                nextTurn();
+            }
+        }
+
+        function loseInfluence(player) {
+            const availableCards = player.cards.filter(c => !c.revealed);
+            if (availableCards.length === 0) return;
+
+            const cardIndex = player.cards.findIndex(c => !c.revealed);
+            const revealedCard = player.cards[cardIndex].character;
+            logTurnEvent(`  - Player ${player.id + 1} loses influence, revealing ${revealedCard}.`);
+            player.cards[cardIndex].revealed = true;
+
+            // Record reveal in history
+            gameState.history.recordCardReveal(player.id, revealedCard);
+
+            checkElimination(player);
+        }
+
+        function checkElimination(player) {
+            const activeCards = player.cards.filter(c => !c.revealed);
+            if (activeCards.length === 0) {
+                player.eliminated = true;
+                player.eliminatedOnTurn = gameState.turnCount;
+                player.coins = 0;
+            }
+        }
+
+        function checkGameOver() {
+            const activePlayers = gameState.players.filter(p => !p.eliminated);
+            if (activePlayers.length === 1) {
+                gameState.gameOver = true;
+            }
+        }
+
+        function nextTurn() {
+            if (checkGameOver()) return;
+
+            let attempts = 0;
+            do {
+                gameState.currentPlayerIndex = (gameState.currentPlayerIndex + 1) % gameState.players.length;
+                attempts++;
+                if (attempts > gameState.players.length) {
+                    gameState.gameOver = true;
+                    return;
+                }
+            } while (gameState.players[gameState.currentPlayerIndex].eliminated);
+        }
+
+        function recordGameResults() {
+            const winner = gameState.players.find(p => !p.eliminated);
+            if (winner) {
+                statistics[winner.id].wins++;
+                logTurnEvent(`\nGAME OVER. Winner: AI ${winner.id + 1} (${getAITypeName(winner.aiType)})`);
+            } else {
+                logTurnEvent("\nGAME OVER. No winner determined (draw or error).");
+            }
+
+            // Record stats for all players
+            gameState.players.forEach(player => {
+                statistics[player.id].totalCoins += player.coins;
+                // Track when player was eliminated (or game end if they won)
+                const survivalTurns = player.eliminatedOnTurn || gameState.turnCount;
+                statistics[player.id].totalTurns += survivalTurns;
+                statistics[player.id].gamesPlayed++;
+            });
+
+            // Append the detailed game log to the main output
+            detailedLogOutput += gameTurnLog.join('\n') + '\n';
+        }
+
+        function updateProgress() {
+            const progress = (simulationConfig.currentGame / simulationConfig.gameCount) * 100;
+            document.getElementById('progressFill').style.width = progress + '%';
+            document.getElementById('progressFill').textContent = Math.round(progress) + '%';
+            document.getElementById('currentGame').textContent = simulationConfig.currentGame;
+        }
+
+        // Two-proportion z-test for statistical significance
+        function twoProportionZTest(wins1, n1, wins2, n2) {
+            // Calculate proportions
+            const p1 = wins1 / n1;
+            const p2 = wins2 / n2;
+
+            // Pooled proportion
+            const pPooled = (wins1 + wins2) / (n1 + n2);
+
+            // Standard error
+            const se = Math.sqrt(pPooled * (1 - pPooled) * (1/n1 + 1/n2));
+
+            // z-score
+            const z = (p1 - p2) / se;
+
+            // For alpha = 0.05, two-tailed test, critical value is 1.96
+            const criticalValue = 1.96;
+
+            return {
+                zScore: z,
+                isSignificant: Math.abs(z) > criticalValue,
+                pValue: 2 * (1 - normalCDF(Math.abs(z)))
+            };
+        }
+
+        // Approximate normal CDF using error function approximation
+        function normalCDF(z) {
+            // Using approximation for standard normal cumulative distribution
+            const t = 1 / (1 + 0.2316419 * Math.abs(z));
+            const d = 0.3989423 * Math.exp(-z * z / 2);
+            const p = d * t * (0.3193815 + t * (-0.3565638 + t * (1.781478 + t * (-1.821256 + t * 1.330274))));
+            return z > 0 ? 1 - p : p;
+        }
+
+        function downloadLogs() {
+            if (!detailedLogOutput) return;
+            const blob = new Blob([detailedLogOutput], { type: 'text/plain;charset=utf-8' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = 'gamelogs.txt';
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            URL.revokeObjectURL(url);
+        }
+
+        function displayFinalResults() {
+            // Update stats grid
+            const statsGrid = document.getElementById('statsGrid');
+            statsGrid.innerHTML = '';
+
+            const totalGames = simulationConfig.currentGame;
+
+            // Find best performer
+            let maxWins = 0;
+            let bestPlayerId = 0;
+            Object.keys(statistics).forEach(playerId => {
+                if (statistics[playerId].wins > maxWins) {
+                    maxWins = statistics[playerId].wins;
+                    bestPlayerId = playerId;
+                }
+            });
+
+            // Determine all statistical winners (not significantly worse than the best)
+            const winners = new Set();
+            winners.add(bestPlayerId); // Best is always a winner
+
+            Object.keys(statistics).forEach(playerId => {
+                if (playerId === bestPlayerId) return;
+
+                const playerWins = statistics[playerId].wins;
+                const bestWins = statistics[bestPlayerId].wins;
+
+                // Test if this player is significantly worse than the best
+                const test = twoProportionZTest(bestWins, totalGames, playerWins, totalGames);
+
+                // If not significantly different (or better), they're also a winner
+                if (!test.isSignificant || test.zScore < 0) {
+                    winners.add(playerId);
+                }
+            });
+
+            // Create stat cards
+            Object.keys(statistics).forEach(playerId => {
+                const stats = statistics[playerId];
+                const winRate = (stats.wins / totalGames * 100).toFixed(1);
+                const isWinner = winners.has(playerId);
+
+                const card = document.createElement('div');
+                card.className = 'stat-card';
+                card.innerHTML = `
+                    <div class="stat-label">AI ${parseInt(playerId) + 1} (${getAITypeName(stats.aiType)})${isWinner ? ' 🏆' : ''}</div>
+                    <div class="stat-value">${stats.wins}</div>
+                    <div class="stat-label">${winRate}% wins</div>
+                `;
+                statsGrid.appendChild(card);
+            });
+
+            // Update results table
+            const resultsTable = document.getElementById('resultsTable');
+            resultsTable.innerHTML = '';
+
+            Object.keys(statistics).forEach(playerId => {
+                const stats = statistics[playerId];
+                const winRate = (stats.wins / totalGames * 100).toFixed(1);
+                const avgCoins = (stats.totalCoins / stats.gamesPlayed).toFixed(1);
+                const avgTurns = (stats.totalTurns / stats.gamesPlayed).toFixed(1);
+                const isWinner = winners.has(playerId);
+
+                const row = document.createElement('tr');
+                row.innerHTML = `
+                    <td>
+                        AI ${parseInt(playerId) + 1}
+                        <span style="color: rgba(255,255,255,0.6); font-size: 12px;">
+                            (${getAITypeName(stats.aiType)})
+                        </span>
+                        ${isWinner ? '<span class="winner-badge">WINNER</span>' : ''}
+                    </td>
+                    <td>${stats.wins}</td>
+                    <td>${winRate}%</td>
+                    <td>${avgCoins}</td>
+                    <td>${avgTurns}</td>
+                `;
+                resultsTable.appendChild(row);
+            });
+
+            // Add statistical note at the bottom (remove existing one first)
+            const existingNote = document.getElementById('statisticalNote');
+            if (existingNote) {
+                existingNote.remove();
+            }
+
+            const noteDiv = document.createElement('div');
+            noteDiv.id = 'statisticalNote';
+            noteDiv.style.marginTop = '20px';
+            noteDiv.style.padding = '15px';
+            noteDiv.style.background = 'rgba(255, 215, 0, 0.1)';
+            noteDiv.style.borderRadius = '8px';
+            noteDiv.style.fontSize = '14px';
+            noteDiv.style.color = 'rgba(255, 255, 255, 0.9)';
+            noteDiv.innerHTML = `
+                <strong>[WINNER]</strong> given up to statistical significance (α = 0.05, two-proportion z-test).
+                All AIs marked as winners are not statistically significantly worse than the best performer.
+            `;
+            resultsTable.parentElement.appendChild(noteDiv);
+
+            if (simulationConfig.currentGame >= simulationConfig.gameCount && !logStatsPrepended) {
+                let statsSummary = `FINAL RESULTS\n=============\n\n`;
+                statsSummary += `Total Games Simulated: ${totalGames}\n\n`;
+                statsSummary += `--- Detailed Statistics ---\n`;
+
+                Object.keys(statistics).forEach(playerId => {
+                    const stats = statistics[playerId];
+                    const winRate = (stats.wins / totalGames * 100).toFixed(1);
+                    const avgCoins = (stats.totalCoins / stats.gamesPlayed).toFixed(1);
+                    const avgTurns = (stats.totalTurns / stats.gamesPlayed).toFixed(1);
+                    const isWinner = winners.has(playerId);
+
+                    statsSummary += `\n[${isWinner ? 'WINNER' : ' '}] AI ${parseInt(playerId) + 1} (${getAITypeName(stats.aiType)})\n`;
+                    statsSummary += `   - Wins: ${stats.wins} (${winRate}%)\n`;
+                    statsSummary += `   - Avg. Turns Survived: ${avgTurns}\n`;
+                    statsSummary += `   - Avg. Final Coins: ${avgCoins}\n`;
+                });
+
+                detailedLogOutput = statsSummary + '\n\n' + detailedLogOutput;
+                logStatsPrepended = true;
+            }
+
+            // Show and enable the download button
+            const downloadBtn = document.getElementById('downloadLogBtn');
+            downloadBtn.style.display = 'inline-block';
+            downloadBtn.onclick = downloadLogs;
+        }
+
+        function resetSimulation() {
+            document.getElementById('setupScreen').style.display = 'block';
+            document.getElementById('simulationScreen').style.display = 'none';
+            document.getElementById('progressFill').style.width = '0%';
+            document.getElementById('progressFill').textContent = '0%';
+        }
+
+        // Initialize on page load
+        document.addEventListener('DOMContentLoaded', function() {
+            // Trigger the change event to show initial AI selectors
+            document.getElementById('playerCount').dispatchEvent(new Event('change'));
+            // Set face-off mode by default
+            setFaceOff();
+        });
+    </script>
+</body>
+</html>
