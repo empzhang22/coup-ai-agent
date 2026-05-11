@@ -1,0 +1,14 @@
+{
+  "name": "coup-ai-agent",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Headless Coup self-play environment and lightweight RL trainer.",
+  "scripts": {
+    "test": "node --test test/*.test.js",
+    "train": "node scripts/train-ppo.js",
+    "train:linear": "node scripts/train-rl.js",
+    "evaluate": "node scripts/evaluate-rl.js",
+    "export:browser": "node scripts/export-browser-model.js",
+    "smoke": "node scripts/smoke-random-games.js"
+  }
+}
