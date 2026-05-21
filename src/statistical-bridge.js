@@ -2,16 +2,12 @@
 
 /**
  * Converts headless CoupEnv state/history into shapes expected by kqw4 StatisticalAI.
- * Statistical code expects revealedCards as a per-player array (not a Map).
+ * revealedCards matches coup contest: sparse array indexed by player id.
  */
 function historyForStatistical(history, playerCount) {
-  const revealedCards = Array.from({ length: playerCount }, () => []);
-  if (history?.revealedCards) {
-    for (let id = 0; id < playerCount; id++) {
-      const cards = history.revealedCards.get(id);
-      if (cards?.length) revealedCards[id] = cards.slice();
-    }
-  }
+  const revealedCards = Array.isArray(history?.revealedCards)
+    ? history.revealedCards
+    : [];
   return {
     revealedCards,
     actionHistory: history?.actionHistory || [],

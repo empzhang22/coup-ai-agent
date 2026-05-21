@@ -327,14 +327,14 @@
         // GameHistory - tracks game events for statistical analysis
         class GameHistory {
             constructor() {
-                this.revealedCards = new Map();
+                this.revealedCards = [];
                 this.actionHistory = [];
                 this.failedChallenges = new Map();
                 this.successfulChallenges = new Map();
             }
 
             reset() {
-                this.revealedCards.clear();
+                this.revealedCards = [];
                 this.actionHistory = [];
                 this.failedChallenges.clear();
                 this.successfulChallenges.clear();
@@ -345,10 +345,10 @@
             }
 
             recordCardReveal(playerId, card) {
-                if (!this.revealedCards.has(playerId)) {
-                    this.revealedCards.set(playerId, []);
+                if (!this.revealedCards[playerId]) {
+                    this.revealedCards[playerId] = [];
                 }
-                this.revealedCards.get(playerId).push(card);
+                this.revealedCards[playerId].push(card);
             }
 
             recordChallenge(challengerId, claimantId, action, success) {
@@ -578,8 +578,10 @@
                 maxTurns--;
                 turnsSinceYield++;
 
-                // Yield to browser every 10 turns to keep UI responsive
-                if (turnsSinceYield >= 10) {
+                // Yield every 5 turns; update label so game 1 does not look frozen
+                if (turnsSinceYield >= 5) {
+                    document.getElementById('currentGame').textContent =
+                        `${simulationConfig.currentGame} (turn ${gameState.turnCount})`;
                     await new Promise(resolve => setTimeout(resolve, 0));
                     turnsSinceYield = 0;
                 }

@@ -114,7 +114,8 @@ class CoupEnv {
 
   observe(playerId = this.currentPlayerId()) {
     const revealedCounts = Object.fromEntries(CHARACTERS.map(c => [c, 0]));
-    for (const cards of this.history.revealedCards.values()) {
+    for (const cards of this.history.revealedCards) {
+      if (!cards) continue;
       for (const card of cards) revealedCounts[card]++;
     }
 

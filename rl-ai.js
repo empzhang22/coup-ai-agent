@@ -129,8 +129,9 @@ class RLAI extends AIEngine {
         for (const character of RL_CHARACTERS) vector.push(ownCounts[character] / 2);
 
         const revealedCounts = Object.fromEntries(RL_CHARACTERS.map(c => [c, 0]));
-        if (gameHistory && gameHistory.revealedCards) {
-            for (const cards of gameHistory.revealedCards.values()) {
+        if (gameHistory && Array.isArray(gameHistory.revealedCards)) {
+            for (const cards of gameHistory.revealedCards) {
+                if (!cards) continue;
                 for (const card of cards) revealedCounts[card]++;
             }
         }

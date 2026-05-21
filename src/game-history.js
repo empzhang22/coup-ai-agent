@@ -2,7 +2,7 @@
 
 class GameHistory {
   constructor() {
-    this.revealedCards = new Map();
+    this.revealedCards = [];
     this.actionHistory = [];
     this.failedChallenges = new Map();
     this.successfulChallenges = new Map();
@@ -13,8 +13,8 @@ class GameHistory {
   }
 
   recordCardReveal(playerId, card) {
-    if (!this.revealedCards.has(playerId)) this.revealedCards.set(playerId, []);
-    this.revealedCards.get(playerId).push(card);
+    if (!this.revealedCards[playerId]) this.revealedCards[playerId] = [];
+    this.revealedCards[playerId].push(card);
   }
 
   recordChallenge(challengerId, claimantId, action, success) {
