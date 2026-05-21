@@ -16,9 +16,7 @@ const ACTIONS = [
   "block:duke",
   "block:captain",
   "block:ambassador",
-  "block:contessa",
-  "reveal:0",
-  "reveal:1"
+  "block:contessa"
 ];
 
 const ACTION_INDEX = new Map(ACTIONS.map((action, index) => [action, index]));

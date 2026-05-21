@@ -25,12 +25,6 @@ class HeuristicAgent {
     const decision = observation?.decision?.type;
     const self = observation?.players?.[observation.selfId];
 
-    if (decision === "reveal") {
-      const ownCards = self?.ownCards || [];
-      const revealSecond = ownCards[0] === "duke" || ownCards[0] === "captain";
-      return this.firstLegal(legalMask, revealSecond ? ["reveal:1", "reveal:0"] : ["reveal:0", "reveal:1"]);
-    }
-
     if (decision === "challenge") {
       return this.firstLegal(legalMask, this.rng() < 0.12 ? ["challenge", "pass"] : ["pass", "challenge"]);
     }

@@ -183,7 +183,7 @@ class RLAI extends AIEngine {
 
 const RL_CHARACTERS = ["duke", "assassin", "captain", "ambassador", "contessa"];
 const RL_MAX_PLAYERS = 5;
-const RL_DECISION_TYPES = ["main", "challenge", "block", "reveal"];
+const RL_DECISION_TYPES = ["main", "challenge", "block"];
 const RL_ACTIONS = [
     "income",
     "foreign-aid",
@@ -197,9 +197,7 @@ const RL_ACTIONS = [
     "block:duke",
     "block:captain",
     "block:ambassador",
-    "block:contessa",
-    "reveal:0",
-    "reveal:1"
+    "block:contessa"
 ];
 const RL_ACTION_INDEX = Object.fromEntries(RL_ACTIONS.map((action, index) => [action, index]));
 

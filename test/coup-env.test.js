@@ -4,6 +4,7 @@ const test = require("node:test");
 const assert = require("node:assert/strict");
 const { CoupEnv } = require("../src/coup-env");
 const { RandomMaskedAgent } = require("../src/baseline-agents");
+const { StatisticalMaskedAgent } = require("../src/statistical-agent");
 const { encodeLegalMask, encodeObservation, OBSERVATION_SIZE } = require("../src/encoder");
 const { NeuralPPOAgent } = require("../src/neural-ppo-agent");
 
@@ -41,6 +42,34 @@ test("random masked agents can finish many games without illegal actions", () =>
 
     assert.ok(safety > 0, `game ${game} exceeded safety limit`);
     assert.notEqual(env.winnerId(), null);
+  }
+});
+
+test("losing influence auto-reveals first hidden card (no reveal decision)", () => {
+  const env = new CoupEnv({ playerCount: 3, seed: 45 });
+  const playerId = env.currentPlayerId();
+  env.players[playerId].cards[0].revealed = true;
+  env.forceReveal(env.players[playerId], () => {});
+  assert.notEqual(env.decision?.type, "reveal");
+  assert.equal(env.players[playerId].cards[1].revealed, true);
+  assert.equal(env.players[playerId].cards[0].revealed, true);
+});
+
+test("statistical masked agent completes games with legal actions", () => {
+  const games = 10;
+  const playerCount = 3;
+  const agents = Array.from({ length: playerCount }, (_, id) => new StatisticalMaskedAgent({ playerId: id, seed: 300 + id }));
+
+  for (let game = 0; game < games; game++) {
+    const env = new CoupEnv({ playerCount, seed: 2000 + game });
+    let safety = 10000;
+    while (!env.gameOver && safety-- > 0) {
+      const playerId = env.currentPlayerId();
+      const action = agents[playerId].act(null, env.legalActionMask(playerId), { env });
+      env.step(action.actionIndex);
+    }
+    assert.ok(safety > 0, `game ${game} exceeded safety limit`);
+    assert.equal(env.gameOver, true, `game ${game} did not terminate`);
   }
 });
 

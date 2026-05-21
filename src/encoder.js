@@ -2,7 +2,7 @@
 
 const { ACTIONS, CHARACTERS, MAX_PLAYERS } = require("./constants");
 
-const DECISION_TYPES = ["main", "challenge", "block", "reveal"];
+const DECISION_TYPES = ["main", "challenge", "block"];
 const OBSERVATION_SIZE =
   DECISION_TYPES.length +
   MAX_PLAYERS +

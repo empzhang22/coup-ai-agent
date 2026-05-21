@@ -2,6 +2,29 @@
 
 This project now has a headless Node environment for self-play reinforcement learning. It keeps the simplified Coup rules from `aicontest.html`, but moves them into code that can run many games without the browser.
 
+## kqw4 statistical baseline (pinned)
+
+The headless statistical opponent matches Kilian Weinberger’s agent at commit `996bde8` (“improved statistical agent”). Source of truth:
+
+- `baseline/kqw4/` — pinned raw files + `PINNED_BASELINE.md`
+- `statistical-ai.js` / `ai-engine.js` (repo root) — browser contest copies
+- `src/kqw4-statistical.js` — Node loader
+- `src/statistical-agent.js` — `StatisticalMaskedAgent` for training/eval
+
+Verify statistical beats random (headless):
+
+```bash
+npm run verify:statistical -- --games 2000 --players 3
+```
+
+Evaluate an RL checkpoint vs statistical (seat 0 = RL, others = statistical):
+
+```bash
+npm run evaluate:statistical -- --model models/ppo-agent.json --games 1000 --players 3
+```
+
+**Note:** Reveal choice was removed from the headless action space to match the browser contest (first hidden card is revealed automatically). Observation/action sizes changed — **retrain** PPO checkpoints after this change; old `models/ppo-agent*.json` files are incompatible.
+
 ## Files
 
 - `src/coup-env.js`: game rules, turn phases, challenges, blocks, influence loss, and terminal rewards.
@@ -13,6 +36,8 @@ This project now has a headless Node environment for self-play reinforcement lea
 - `scripts/export-browser-model.js`: converts a trained PPO JSON checkpoint into `models/ppo-browser-model.js` for `aicontest.html`.
 - `rl-ai.js`: browser `AIEngine` wrapper that lets the trained model compete in the existing contest page.
 - `scripts/evaluate-rl.js`: evaluates a saved model against random and heuristic baselines.
+- `scripts/verify-statistical-baseline.js`: statistical vs random (primary baseline sanity check).
+- `scripts/evaluate-vs-statistical.js`: RL vs statistical win rate.
 - `scripts/smoke-random-games.js`: fast simulation sanity check.
 
 ## Commands

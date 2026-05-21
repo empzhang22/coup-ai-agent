@@ -100,13 +100,6 @@ class CoupEnv {
       return ["pass", ...blockCardsForAction(this.pendingAction.action).map(card => `block:${card}`)];
     }
 
-    if (this.decision.type === "reveal") {
-      const player = this.players[playerId];
-      return player.cards
-        .map((card, index) => (!card.revealed ? `reveal:${index}` : null))
-        .filter(Boolean);
-    }
-
     return [];
   }
 
@@ -160,7 +153,9 @@ class CoupEnv {
     if (this.decision.type === "main") this.applyMainAction(action);
     else if (this.decision.type === "challenge") this.applyChallengeDecision(action);
     else if (this.decision.type === "block") this.applyBlockDecision(action);
-    else if (this.decision.type === "reveal") this.applyRevealDecision(action);
+    else {
+      throw new Error(`Unexpected decision type: ${this.decision.type}`);
+    }
 
     if (!this.gameOver && this.turnCount >= this.maxTurns) {
       this.gameOver = true;
@@ -255,16 +250,6 @@ class CoupEnv {
     });
     this.pendingAction = null;
     this.nextTurn();
-  }
-
-  applyRevealDecision(action) {
-    const index = Number(action.split(":")[1]);
-    const player = this.players[this.decision.playerId];
-    this.revealCard(player, index);
-
-    const continuation = this.decision.afterReveal;
-    this.decision = null;
-    if (continuation) continuation();
   }
 
   advanceChallengeOrResolution() {
@@ -371,17 +356,13 @@ class CoupEnv {
   }
 
   forceReveal(player, afterReveal) {
-    const active = player.cards
-      .map((card, index) => ({ card, index }))
-      .filter(({ card }) => !card.revealed);
-    if (active.length === 0) {
+    const index = player.cards.findIndex(c => !c.revealed);
+    if (index === -1) {
       afterReveal();
-    } else if (active.length === 1) {
-      this.revealCard(player, active[0].index);
-      afterReveal();
-    } else {
-      this.decision = { type: "reveal", playerId: player.id, afterReveal };
+      return;
     }
+    this.revealCard(player, index);
+    afterReveal();
   }
 
   revealCard(player, index) {
