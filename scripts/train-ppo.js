@@ -3,8 +3,10 @@
 const fs = require("fs");
 const path = require("path");
 const { CoupEnv } = require("../src/coup-env");
-const { HeuristicAgent, RandomMaskedAgent } = require("../src/baseline-agents");
-const { encodeLegalMask, encodeObservation } = require("../src/encoder");
+const { RandomMaskedAgent } = require("../src/baseline-agents");
+const { StatisticalMaskedAgent } = require("../src/statistical-agent");
+const { encodeLegalMask, encodeObservation, OBSERVATION_SIZE, ACTION_COUNT } = require("../src/encoder");
+const { evaluateVsStatistical } = require("../src/eval-vs-statistical");
 const { NeuralPPOAgent } = require("../src/neural-ppo-agent");
 const { createRng } = require("../src/rng");
 
@@ -17,23 +19,29 @@ const epochs = Number(args.epochs || 4);
 const batchSize = Number(args["batch-size"] || 128);
 const snapshotEvery = Number(args["snapshot-every"] || 10);
 const evalEvery = Number(args["eval-every"] || 10);
+const evalStatGames = Number(args["eval-stat-games"] || 200);
+const curriculumEnd = Number(args["curriculum-end"] || Math.floor(iterations * 0.4));
 const modelPath = path.resolve(args.out || "models/ppo-agent.json");
+const bestStatPath = modelPath.replace(/\.json$/, "-best-statistical.json");
 const rng = createRng(seed);
 
 fs.mkdirSync(path.dirname(modelPath), { recursive: true });
 
-const learner = args.resume && fs.existsSync(args.resume)
-  ? NeuralPPOAgent.load(path.resolve(args.resume))
-  : new NeuralPPOAgent({
-      seed,
-      hiddenSize: Number(args.hidden || 96),
-      policyLearningRate: Number(args["policy-lr"] || 0.0008),
-      valueLearningRate: Number(args["value-lr"] || 0.0015),
-      entropyBonus: Number(args.entropy || 0.01)
-    });
-
+const learner = loadOrCreateLearner();
 const snapshots = [learner.snapshot()];
 let totalGames = 0;
+let bestStatWinRate = -1;
+let bestStatIter = 0;
+
+if (args.resume && fs.existsSync(path.resolve(args.resume))) {
+  console.log(`WARNING: --resume loads an existing checkpoint. Old pre-reveal-parity models are incompatible.`);
+}
+
+console.log(
+  `training: iterations=${iterations} games/iter=${gamesPerIteration} players=${playerCount} ` +
+  `curriculumEnd=${curriculumEnd} evalStatGames=${evalStatGames}`
+);
+console.log(`opponent mix: early 50% random / 30% self-play / 20% statistical → late 15% / 40% / 45%`);
 
 for (let iteration = 1; iteration <= iterations; iteration++) {
   const rollouts = [];
@@ -44,7 +52,15 @@ for (let iteration = 1; iteration <= iterations; iteration++) {
   };
 
   for (let game = 0; game < gamesPerIteration; game++) {
-    const opponents = buildOpponentLineup({ learner, snapshots, playerCount, rng, seed: seed + iteration * 10000 + game });
+    const opponents = buildOpponentLineup({
+      learner,
+      snapshots,
+      playerCount,
+      iteration,
+      curriculumEnd,
+      rng,
+      seed: seed + iteration * 10000 + game
+    });
     const result = collectGame({
       agents: opponents,
       learner,
@@ -76,29 +92,94 @@ for (let iteration = 1; iteration <= iterations; iteration++) {
   );
 
   if (iteration % evalEvery === 0 || iteration === iterations) {
-    const evalStats = evaluate(learner, { games: 100, playerCount, seed: seed + iteration * 200000 });
+    const statEval = evaluateVsStatistical(learner, {
+      games: evalStatGames,
+      playerCount,
+      seed: seed + iteration * 200000
+    });
     console.log(
-      `eval iter=${iteration} rlWin=${evalStats.rlWinRate.toFixed(1)}% ` +
-      `avgTurns=${evalStats.averageTurns.toFixed(1)}`
+      `stat-eval iter=${iteration} rlWin=${statEval.rlWinRate.toFixed(1)}% ` +
+      `avgTurns=${statEval.averageTurns.toFixed(1)} draws=${statEval.draws}`
     );
+
+    if (statEval.rlWinRate > bestStatWinRate) {
+      bestStatWinRate = statEval.rlWinRate;
+      bestStatIter = iteration;
+      learner.save(bestStatPath);
+      console.log(`  new best vs statistical: ${bestStatWinRate.toFixed(1)}% → ${bestStatPath}`);
+    }
   }
 
   learner.save(modelPath);
 }
 
 console.log(`saved ${modelPath}`);
+if (bestStatIter > 0) {
+  console.log(`best vs statistical: ${bestStatWinRate.toFixed(1)}% at iter ${bestStatIter} → ${bestStatPath}`);
+  console.log(`Run: npm run evaluate:statistical -- --model ${bestStatPath} --games 5000 --players all`);
+}
 
-function buildOpponentLineup({ learner, snapshots, playerCount, rng, seed }) {
+function loadOrCreateLearner() {
+  if (args.resume && fs.existsSync(path.resolve(args.resume))) {
+    const resumePath = path.resolve(args.resume);
+    const data = JSON.parse(fs.readFileSync(resumePath, "utf8"));
+    if (data.type === "NeuralPPOAgent") {
+      if (data.observationSize !== OBSERVATION_SIZE || data.actionCount !== ACTION_COUNT) {
+        throw new Error(
+          `Cannot resume ${resumePath}: incompatible architecture ` +
+          `(obs ${data.observationSize}→${OBSERVATION_SIZE}, actions ${data.actionCount}→${ACTION_COUNT}). ` +
+          `Retrain from scratch without --resume.`
+        );
+      }
+      return NeuralPPOAgent.load(resumePath);
+    }
+  }
+  return new NeuralPPOAgent({
+    seed,
+    hiddenSize: Number(args.hidden || 96),
+    policyLearningRate: Number(args["policy-lr"] || 0.0008),
+    valueLearningRate: Number(args["value-lr"] || 0.0015),
+    entropyBonus: Number(args.entropy || 0.01)
+  });
+}
+
+function opponentMixWeights(iteration, curriculumEnd) {
+  const progress = Math.min(1, iteration / Math.max(1, curriculumEnd));
+  return {
+    random: lerp(0.5, 0.15, progress),
+    snapshot: lerp(0.3, 0.4, progress),
+    statistical: lerp(0.2, 0.45, progress)
+  };
+}
+
+function lerp(a, b, t) {
+  return a + (b - a) * t;
+}
+
+function pickOpponentType(rng, weights, hasSnapshots) {
+  let roll = rng();
+  if (roll < weights.random) return "random";
+  roll -= weights.random;
+  if (roll < weights.snapshot && hasSnapshots) return "snapshot";
+  return "statistical";
+}
+
+function buildOpponentLineup({ learner, snapshots, playerCount, iteration, curriculumEnd, rng, seed }) {
+  const weights = opponentMixWeights(iteration, curriculumEnd);
   const lineup = Array(playerCount).fill(null);
   const learnerSeat = Math.floor(rng() * playerCount);
   lineup[learnerSeat] = learner;
 
   for (let id = 0; id < playerCount; id++) {
     if (lineup[id]) continue;
-    const roll = rng();
-    if (roll < 0.45 && snapshots.length) lineup[id] = snapshots[Math.floor(rng() * snapshots.length)];
-    else if (roll < 0.75) lineup[id] = new HeuristicAgent({ seed: seed + id });
-    else lineup[id] = new RandomMaskedAgent({ seed: seed + id });
+    const type = pickOpponentType(rng, weights, snapshots.length > 0);
+    if (type === "snapshot") {
+      lineup[id] = snapshots[Math.floor(rng() * snapshots.length)];
+    } else if (type === "random") {
+      lineup[id] = new RandomMaskedAgent({ seed: seed + id });
+    } else {
+      lineup[id] = new StatisticalMaskedAgent({ playerId: id, seed: seed + id });
+    }
   }
   return lineup;
 }
@@ -116,10 +197,16 @@ function collectGame({ agents, learner, learnerPlayerIds, playerCount, seed }) {
     const vector = encodeObservation(observation);
     const legalMask = encodeLegalMask(env, playerId);
     const agent = agents[playerId];
-    const action = agent.act(vector, legalMask, {
-      greedy: agent !== learner,
-      observation
-    });
+
+    let action;
+    if (agent instanceof StatisticalMaskedAgent) {
+      action = agent.act(vector, legalMask, { env });
+    } else {
+      action = agent.act(vector, legalMask, {
+        greedy: agent !== learner,
+        observation
+      });
+    }
 
     if (learnerSeats.has(playerId)) {
       const transition = {
@@ -143,39 +230,6 @@ function collectGame({ agents, learner, learnerPlayerIds, playerCount, seed }) {
 
   if (safety <= 0) throw new Error("PPO training game exceeded safety limit");
   return { rollouts, winner: env.winnerId(), turns: env.turnCount };
-}
-
-function evaluate(agent, { games, playerCount, seed }) {
-  let rlWins = 0;
-  let turns = 0;
-  for (let game = 0; game < games; game++) {
-    const env = new CoupEnv({ playerCount, seed: seed + game });
-    const agents = Array.from({ length: playerCount }, (_, id) => {
-      if (id === 0) return agent;
-      if (id % 2 === 0) return new HeuristicAgent({ seed: seed + game * 13 + id });
-      return new RandomMaskedAgent({ seed: seed + game * 17 + id });
-    });
-
-    let safety = 20000;
-    while (!env.gameOver && safety-- > 0) {
-      const playerId = env.currentPlayerId();
-      const observation = env.observe(playerId);
-      const vector = encodeObservation(observation);
-      const legalMask = encodeLegalMask(env, playerId);
-      const action = agents[playerId].act(vector, legalMask, {
-        greedy: playerId === 0,
-        observation
-      });
-      env.step(action.actionIndex);
-    }
-    if (safety <= 0) throw new Error("PPO eval game exceeded safety limit");
-    if (env.winnerId() === 0) rlWins++;
-    turns += env.turnCount;
-  }
-  return {
-    rlWinRate: 100 * rlWins / games,
-    averageTurns: turns / games
-  };
 }
 
 function parseArgs(argv) {

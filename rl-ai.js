@@ -25,6 +25,10 @@ class RLAI extends AIEngine {
         return chosen === "challenge";
     }
 
+    decideChallengeBlock(action, blockerId, blockChar, gameState, gameHistory) {
+        return this.decideChallengeAction(`block-${action}`, blockerId, gameState, gameHistory);
+    }
+
     decideBlockAction(action, actorId, gameState, gameHistory) {
         const chosen = this.chooseMaskedAction("block", this.playerId, gameState, gameHistory, {
             actorId,

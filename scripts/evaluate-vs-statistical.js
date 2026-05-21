@@ -1,71 +1,63 @@
 "use strict";
 
 const path = require("path");
-const { CoupEnv } = require("../src/coup-env");
-const { StatisticalMaskedAgent } = require("../src/statistical-agent");
-const { encodeLegalMask, encodeObservation } = require("../src/encoder");
+const { evaluateVsStatistical, parsePlayerCounts } = require("../src/eval-vs-statistical");
 const { LinearPolicyAgent } = require("../src/rl-agent");
 const { NeuralPPOAgent } = require("../src/neural-ppo-agent");
 const { BASELINE_COMMIT } = require("../src/kqw4-statistical");
+const { OBSERVATION_SIZE, ACTION_COUNT } = require("../src/encoder");
 
 const args = parseArgs(process.argv.slice(2));
-const games = Number(args.games || 1000);
-const playerCount = Number(args.players || 3);
+const games = Number(args.games || 5000);
 const seed = Number(args.seed || 7000);
 const modelPath = args.model ? path.resolve(args.model) : null;
+const playerCounts = parsePlayerCounts(args.players, 3);
 
-const rlAgent = modelPath ? loadAgent(modelPath) : null;
-let rlWins = 0;
-let statisticalWins = 0;
-let totalTurns = 0;
-
-for (let game = 0; game < games; game++) {
-  const env = new CoupEnv({ playerCount, seed: seed + game });
-  const agents = Array.from({ length: playerCount }, (_, id) => {
-    if (id === 0 && rlAgent) return rlAgent;
-    return new StatisticalMaskedAgent({ playerId: id, seed: seed + game * 17 + id });
-  });
-
-  let safety = 20000;
-  while (!env.gameOver && safety-- > 0) {
-    const playerId = env.currentPlayerId();
-    const legalMask = encodeLegalMask(env, playerId);
-    const agent = agents[playerId];
-
-    let action;
-    if (agent instanceof StatisticalMaskedAgent) {
-      action = agent.act(null, legalMask, { env });
-    } else {
-      const observation = env.observe(playerId);
-      action = agent.act(encodeObservation(observation), legalMask, {
-        greedy: playerId === 0,
-        observation
-      });
-    }
-    env.step(action.actionIndex);
-  }
-  if (safety <= 0) throw new Error(`Game ${game} exceeded safety limit`);
-
-  const winner = env.winnerId();
-  if (winner === 0) rlWins++;
-  else statisticalWins++;
-  totalTurns += env.turnCount;
+if (!modelPath) {
+  console.error("Usage: node scripts/evaluate-vs-statistical.js --model <path> [--games 5000] [--players 3|all|2,3,4,5]");
+  process.exit(1);
 }
 
+const rlAgent = loadAgent(modelPath);
 console.log(`baseline commit: ${BASELINE_COMMIT}`);
-console.log(`games: ${games}, players: ${playerCount}`);
-if (modelPath) {
-  console.log(`model: ${modelPath}`);
-  console.log(`RL win rate vs statistical: ${(100 * rlWins / games).toFixed(1)}%`);
-} else {
-  console.log("model: (none) — all seats statistical; use --model for RL eval");
+console.log(`model: ${modelPath}`);
+console.log(`games per player count: ${games}`);
+console.log("");
+
+let totalRlWins = 0;
+let totalGames = 0;
+
+for (const playerCount of playerCounts) {
+  const stats = evaluateVsStatistical(rlAgent, { games, playerCount, seed: seed + playerCount * 100000 });
+  totalRlWins += stats.rlWins;
+  totalGames += stats.games;
+
+  console.log(`--- ${playerCount} players ---`);
+  console.log(`RL win rate: ${stats.rlWinRate.toFixed(1)}% (${stats.rlWins}/${stats.games})`);
+  console.log(`Statistical win rate: ${stats.statisticalWinRate.toFixed(1)}%`);
+  if (stats.draws > 0) {
+    console.log(`Draws (max turns): ${stats.draws} — decided-only RL rate: ${stats.rlWinRateDecided.toFixed(1)}%`);
+  }
+  console.log(`Average turns: ${stats.averageTurns.toFixed(1)}`);
+  console.log("");
 }
-console.log(`Statistical win rate: ${(100 * statisticalWins / games).toFixed(1)}%`);
-console.log(`Average turns: ${(totalTurns / games).toFixed(1)}`);
+
+if (playerCounts.length > 1) {
+  console.log(`--- overall (${playerCounts.join(",")} player counts) ---`);
+  console.log(`RL win rate: ${(100 * totalRlWins / totalGames).toFixed(1)}% (${totalRlWins}/${totalGames})`);
+}
 
 function loadAgent(modelPath) {
   const data = require(modelPath);
-  if (data.type === "NeuralPPOAgent") return NeuralPPOAgent.load(modelPath);
+  if (data.type === "NeuralPPOAgent") {
+    if (data.observationSize !== OBSERVATION_SIZE || data.actionCount !== ACTION_COUNT) {
+      throw new Error(
+        `Model incompatible: obs ${data.observationSize} vs ${OBSERVATION_SIZE}, ` +
+        `actions ${data.actionCount} vs ${ACTION_COUNT}. Retrain after reveal-parity change.`
+      );
+    }
+    return NeuralPPOAgent.load(modelPath);
+  }
   if (data.type === "LinearPolicyAgent") return LinearPolicyAgent.load(modelPath);
   throw new Error(`Unsupported model type: ${data.type}`);
 }

@@ -85,9 +85,38 @@ node scripts/train-ppo.js --iterations 300 --games-per-iteration 128 --players 3
 node scripts/evaluate-rl.js --model models/ppo-agent.json --games 1000 --players 3
 ```
 
+## Phase 3 training (vs kqw4 statistical)
+
+Default opponent curriculum in `scripts/train-ppo.js`:
+
+| Phase | Random | Self-play snapshots | Statistical |
+|-------|--------|---------------------|-------------|
+| Early (iter 1) | 50% | 30% | 20% |
+| Late (after `--curriculum-end`, default 40% of run) | 15% | 40% | 45% |
+
+Each `--eval-every` checkpoint is scored with `evaluateVsStatistical` (RL seat 0 vs statistical). The best checkpoint is saved as `models/ppo-agent-best-statistical.json` — **use this for reporting**, not the final `ppo-agent.json` unless it wins on eval.
+
+Retrain from scratch (old checkpoints are incompatible):
+
+```bash
+npm run train -- --iterations 500 --games-per-iteration 192 --players 3 --out models/ppo-agent.json
+```
+
+Primary metric (5000+ games, all player counts):
+
+```bash
+npm run evaluate:statistical -- --model models/ppo-agent-best-statistical.json --games 5000 --players all
+```
+
+Export best model for browser contest (1× RL vs statistical in `aicontest.html`):
+
+```bash
+npm run export:browser -- --model models/ppo-agent-best-statistical.json --out models/ppo-browser-model.js
+```
+
 ## What Counts As "Real" Training
 
-The PPO trainer uses a neural actor-critic policy, legal action masking, generalized advantage estimation, clipped PPO updates, entropy regularization, gradient clipping, frozen self-play snapshots, and random/heuristic baseline opponents.
+The PPO trainer uses a neural actor-critic policy, legal action masking, generalized advantage estimation, clipped PPO updates, entropy regularization, gradient clipping, frozen self-play snapshots, and random/statistical/self-play opponents.
 
 For a serious MEng run, train multiple seeds and compare them:
 

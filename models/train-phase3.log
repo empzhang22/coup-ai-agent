@@ -1,0 +1,558 @@
+training: iterations=500 games/iter=192 players=3 curriculumEnd=200 evalStatGames=200
+opponent mix: early 50% random / 30% self-play / 20% statistical → late 15% / 40% / 45%
+iter=1/500 games=192 samples=2137 turns=24.3 wins=42.2% / 31.3% / 25.5% policyLoss=-0.0062 valueLoss=0.5367 entropy=1.145
+iter=2/500 games=384 samples=2434 turns=25.6 wins=34.9% / 38.5% / 25.5% policyLoss=-0.0027 valueLoss=0.5258 entropy=1.135
+iter=3/500 games=576 samples=2386 turns=29.4 wins=36.5% / 35.4% / 26.0% policyLoss=-0.0031 valueLoss=0.4761 entropy=1.070
+iter=4/500 games=768 samples=2615 turns=27.4 wins=40.6% / 36.5% / 22.4% policyLoss=-0.0038 valueLoss=0.4586 entropy=1.061
+iter=5/500 games=960 samples=2693 turns=25.3 wins=44.8% / 32.3% / 21.9% policyLoss=-0.0045 valueLoss=0.4833 entropy=1.029
+iter=6/500 games=1152 samples=3166 turns=38.3 wins=33.9% / 35.9% / 27.6% policyLoss=-0.0039 valueLoss=0.3750 entropy=1.005
+iter=7/500 games=1344 samples=2886 turns=25.4 wins=38.0% / 28.6% / 32.8% policyLoss=-0.0072 valueLoss=0.3704 entropy=0.910
+iter=8/500 games=1536 samples=3265 turns=34.1 wins=36.5% / 37.0% / 24.5% policyLoss=-0.0057 valueLoss=0.3403 entropy=0.886
+iter=9/500 games=1728 samples=3807 turns=31.3 wins=38.0% / 34.4% / 26.6% policyLoss=-0.0046 valueLoss=0.2902 entropy=0.864
+iter=10/500 games=1920 samples=4023 turns=33.1 wins=33.9% / 40.6% / 24.5% policyLoss=-0.0025 valueLoss=0.2672 entropy=0.837
+stat-eval iter=10 rlWin=98.5% avgTurns=66.3 draws=1
+  new best vs statistical: 98.5% → /Users/eunalee/Documents/GitHub/coup-ai-agent/models/ppo-agent-best-statistical.json
+iter=11/500 games=2112 samples=4369 turns=35.4 wins=42.2% / 30.7% / 26.0% policyLoss=-0.0037 valueLoss=0.2402 entropy=0.702
+iter=12/500 games=2304 samples=5073 turns=42.8 wins=37.0% / 33.9% / 27.6% policyLoss=-0.0044 valueLoss=0.2053 entropy=0.681
+iter=13/500 games=2496 samples=6080 turns=45.9 wins=28.1% / 49.5% / 21.4% policyLoss=-0.0001 valueLoss=0.1419 entropy=0.639
+iter=14/500 games=2688 samples=6489 turns=49.8 wins=27.1% / 47.9% / 23.4% policyLoss=0.0009 valueLoss=0.1387 entropy=0.608
+iter=15/500 games=2880 samples=5804 turns=37.5 wins=30.2% / 46.4% / 23.4% policyLoss=-0.0013 valueLoss=0.1515 entropy=0.581
+iter=16/500 games=3072 samples=5941 turns=37.9 wins=28.1% / 47.9% / 24.0% policyLoss=-0.0016 valueLoss=0.1446 entropy=0.526
+iter=17/500 games=3264 samples=5927 turns=41.3 wins=33.9% / 44.8% / 20.8% policyLoss=-0.0025 valueLoss=0.1435 entropy=0.476
+iter=18/500 games=3456 samples=6080 turns=42.6 wins=31.8% / 46.4% / 21.4% policyLoss=-0.0027 valueLoss=0.1451 entropy=0.472
+iter=19/500 games=3648 samples=6819 turns=41.0 wins=30.2% / 51.6% / 18.2% policyLoss=-0.0003 valueLoss=0.1072 entropy=0.364
+iter=20/500 games=3840 samples=6277 turns=41.2 wins=29.7% / 52.1% / 18.2% policyLoss=-0.0017 valueLoss=0.1237 entropy=0.399
+stat-eval iter=20 rlWin=97.0% avgTurns=73.7 draws=3
+iter=21/500 games=4032 samples=6307 turns=45.2 wins=34.9% / 40.6% / 24.0% policyLoss=-0.0023 valueLoss=0.1432 entropy=0.409
+iter=22/500 games=4224 samples=6909 turns=46.2 wins=23.4% / 50.5% / 25.5% policyLoss=0.0008 valueLoss=0.1068 entropy=0.408
+iter=23/500 games=4416 samples=6771 turns=45.9 wins=28.6% / 47.4% / 24.0% policyLoss=-0.0017 valueLoss=0.1339 entropy=0.393
+iter=24/500 games=4608 samples=6455 turns=46.5 wins=24.0% / 47.4% / 28.1% policyLoss=-0.0026 valueLoss=0.1103 entropy=0.360
+iter=25/500 games=4800 samples=7357 turns=50.2 wins=32.3% / 46.4% / 21.4% policyLoss=0.0026 valueLoss=0.1163 entropy=0.343
+iter=26/500 games=4992 samples=6811 turns=43.8 wins=35.9% / 40.1% / 24.0% policyLoss=-0.0006 valueLoss=0.1277 entropy=0.351
+iter=27/500 games=5184 samples=6997 turns=46.8 wins=25.5% / 52.6% / 21.9% policyLoss=-0.0039 valueLoss=0.1143 entropy=0.347
+iter=28/500 games=5376 samples=6437 turns=40.8 wins=30.7% / 48.4% / 20.8% policyLoss=-0.0033 valueLoss=0.1240 entropy=0.301
+iter=29/500 games=5568 samples=6381 turns=41.9 wins=31.3% / 43.8% / 25.0% policyLoss=-0.0005 valueLoss=0.1127 entropy=0.293
+iter=30/500 games=5760 samples=7431 turns=53.0 wins=26.6% / 50.0% / 22.4% policyLoss=-0.0012 valueLoss=0.0919 entropy=0.280
+stat-eval iter=30 rlWin=99.0% avgTurns=80.9 draws=1
+  new best vs statistical: 99.0% → /Users/eunalee/Documents/GitHub/coup-ai-agent/models/ppo-agent-best-statistical.json
+iter=31/500 games=5952 samples=6839 turns=46.5 wins=27.6% / 39.6% / 32.8% policyLoss=0.0011 valueLoss=0.1294 entropy=0.304
+iter=32/500 games=6144 samples=7430 turns=46.2 wins=34.4% / 39.6% / 26.0% policyLoss=0.0008 valueLoss=0.1068 entropy=0.306
+iter=33/500 games=6336 samples=7291 turns=47.2 wins=30.2% / 43.8% / 26.0% policyLoss=-0.0003 valueLoss=0.1089 entropy=0.324
+iter=34/500 games=6528 samples=7601 turns=53.6 wins=26.0% / 44.3% / 29.7% policyLoss=-0.0002 valueLoss=0.1082 entropy=0.315
+iter=35/500 games=6720 samples=7913 turns=53.5 wins=31.3% / 40.1% / 28.6% policyLoss=0.0010 valueLoss=0.1012 entropy=0.306
+iter=36/500 games=6912 samples=7202 turns=48.0 wins=31.3% / 35.4% / 33.3% policyLoss=-0.0011 valueLoss=0.1185 entropy=0.300
+iter=37/500 games=7104 samples=7901 turns=49.9 wins=31.8% / 34.4% / 33.9% policyLoss=0.0008 valueLoss=0.0871 entropy=0.291
+iter=38/500 games=7296 samples=7341 turns=50.1 wins=29.2% / 37.0% / 33.9% policyLoss=-0.0018 valueLoss=0.0955 entropy=0.303
+iter=39/500 games=7488 samples=7384 turns=49.0 wins=32.8% / 34.4% / 32.8% policyLoss=-0.0005 valueLoss=0.1093 entropy=0.307
+iter=40/500 games=7680 samples=7720 turns=50.8 wins=26.0% / 40.1% / 33.9% policyLoss=-0.0007 valueLoss=0.0989 entropy=0.303
+stat-eval iter=40 rlWin=99.0% avgTurns=89.1 draws=2
+iter=41/500 games=7872 samples=7498 turns=55.6 wins=28.1% / 40.6% / 30.2% policyLoss=-0.0007 valueLoss=0.0907 entropy=0.326
+iter=42/500 games=8064 samples=7646 turns=49.6 wins=30.2% / 33.3% / 36.5% policyLoss=-0.0002 valueLoss=0.1138 entropy=0.321
+iter=43/500 games=8256 samples=7485 turns=52.1 wins=26.6% / 39.6% / 33.9% policyLoss=0.0000 valueLoss=0.1057 entropy=0.308
+iter=44/500 games=8448 samples=7414 turns=48.8 wins=28.6% / 40.6% / 30.7% policyLoss=0.0027 valueLoss=0.0931 entropy=0.328
+iter=45/500 games=8640 samples=7942 turns=51.3 wins=23.4% / 50.0% / 26.6% policyLoss=0.0005 valueLoss=0.0806 entropy=0.317
+iter=46/500 games=8832 samples=7363 turns=48.0 wins=34.9% / 39.6% / 25.5% policyLoss=0.0026 valueLoss=0.1060 entropy=0.321
+iter=47/500 games=9024 samples=6751 turns=45.5 wins=30.7% / 35.9% / 33.3% policyLoss=-0.0014 valueLoss=0.1129 entropy=0.331
+iter=48/500 games=9216 samples=7200 turns=49.5 wins=27.1% / 44.3% / 28.1% policyLoss=-0.0006 valueLoss=0.0940 entropy=0.331
+iter=49/500 games=9408 samples=7366 turns=50.5 wins=31.8% / 35.4% / 32.8% policyLoss=0.0036 valueLoss=0.1043 entropy=0.346
+iter=50/500 games=9600 samples=6788 turns=48.9 wins=28.1% / 34.9% / 36.5% policyLoss=-0.0006 valueLoss=0.1132 entropy=0.371
+stat-eval iter=50 rlWin=98.0% avgTurns=60.4 draws=0
+iter=51/500 games=9792 samples=7891 turns=51.0 wins=29.7% / 36.5% / 33.9% policyLoss=-0.0004 valueLoss=0.0927 entropy=0.331
+iter=52/500 games=9984 samples=6573 turns=44.0 wins=25.5% / 38.5% / 35.9% policyLoss=-0.0013 valueLoss=0.1115 entropy=0.357
+iter=53/500 games=10176 samples=6964 turns=46.4 wins=35.4% / 31.3% / 33.3% policyLoss=0.0004 valueLoss=0.1111 entropy=0.362
+iter=54/500 games=10368 samples=6842 turns=46.2 wins=31.8% / 39.1% / 29.2% policyLoss=-0.0007 valueLoss=0.1164 entropy=0.356
+iter=55/500 games=10560 samples=7198 turns=47.3 wins=27.6% / 34.9% / 37.5% policyLoss=0.0007 valueLoss=0.1091 entropy=0.320
+iter=56/500 games=10752 samples=6931 turns=49.7 wins=36.5% / 33.9% / 29.7% policyLoss=0.0024 valueLoss=0.1077 entropy=0.357
+iter=57/500 games=10944 samples=6958 turns=51.6 wins=30.2% / 33.9% / 35.4% policyLoss=-0.0011 valueLoss=0.1086 entropy=0.335
+iter=58/500 games=11136 samples=7613 turns=51.0 wins=30.2% / 35.4% / 34.4% policyLoss=-0.0013 valueLoss=0.0935 entropy=0.328
+iter=59/500 games=11328 samples=7545 turns=49.6 wins=28.6% / 31.3% / 40.1% policyLoss=0.0028 valueLoss=0.0884 entropy=0.341
+iter=60/500 games=11520 samples=7235 turns=50.8 wins=30.7% / 38.0% / 31.3% policyLoss=-0.0002 valueLoss=0.0926 entropy=0.381
+stat-eval iter=60 rlWin=98.5% avgTurns=52.4 draws=0
+iter=61/500 games=11712 samples=7137 turns=46.2 wins=29.2% / 32.8% / 38.0% policyLoss=-0.0011 valueLoss=0.1008 entropy=0.356
+iter=62/500 games=11904 samples=6907 turns=45.9 wins=32.8% / 34.9% / 32.3% policyLoss=0.0014 valueLoss=0.1107 entropy=0.390
+iter=63/500 games=12096 samples=6957 turns=47.0 wins=24.0% / 40.6% / 35.4% policyLoss=-0.0025 valueLoss=0.1097 entropy=0.377
+iter=64/500 games=12288 samples=6599 turns=45.9 wins=29.7% / 38.0% / 31.8% policyLoss=-0.0011 valueLoss=0.1180 entropy=0.367
+iter=65/500 games=12480 samples=7513 turns=51.3 wins=28.6% / 36.5% / 34.9% policyLoss=-0.0026 valueLoss=0.1037 entropy=0.362
+iter=66/500 games=12672 samples=6925 turns=48.6 wins=32.8% / 33.3% / 33.9% policyLoss=0.0014 valueLoss=0.1024 entropy=0.400
+iter=67/500 games=12864 samples=7229 turns=49.4 wins=30.7% / 36.5% / 32.8% policyLoss=-0.0005 valueLoss=0.1051 entropy=0.396
+iter=68/500 games=13056 samples=6810 turns=47.1 wins=31.3% / 35.4% / 33.3% policyLoss=-0.0017 valueLoss=0.1194 entropy=0.384
+iter=69/500 games=13248 samples=6540 turns=45.6 wins=37.5% / 35.4% / 27.1% policyLoss=0.0006 valueLoss=0.1159 entropy=0.381
+iter=70/500 games=13440 samples=6716 turns=50.2 wins=33.9% / 35.9% / 29.2% policyLoss=-0.0023 valueLoss=0.1005 entropy=0.378
+stat-eval iter=70 rlWin=98.5% avgTurns=45.8 draws=0
+iter=71/500 games=13632 samples=7302 turns=50.9 wins=31.3% / 31.3% / 37.5% policyLoss=-0.0032 valueLoss=0.0988 entropy=0.380
+iter=72/500 games=13824 samples=6050 turns=43.7 wins=35.4% / 35.4% / 29.2% policyLoss=0.0037 valueLoss=0.1283 entropy=0.401
+iter=73/500 games=14016 samples=7196 turns=52.8 wins=35.9% / 31.8% / 31.8% policyLoss=-0.0005 valueLoss=0.1076 entropy=0.389
+iter=74/500 games=14208 samples=6806 turns=49.5 wins=32.3% / 35.9% / 31.8% policyLoss=-0.0000 valueLoss=0.1186 entropy=0.400
+iter=75/500 games=14400 samples=6949 turns=48.3 wins=32.3% / 34.4% / 33.3% policyLoss=-0.0011 valueLoss=0.1014 entropy=0.377
+iter=76/500 games=14592 samples=6946 turns=47.1 wins=34.9% / 27.6% / 37.5% policyLoss=-0.0007 valueLoss=0.0997 entropy=0.360
+iter=77/500 games=14784 samples=7404 turns=50.2 wins=37.0% / 25.5% / 37.5% policyLoss=-0.0039 valueLoss=0.1182 entropy=0.366
+iter=78/500 games=14976 samples=7494 turns=47.2 wins=32.3% / 30.7% / 37.0% policyLoss=-0.0017 valueLoss=0.0923 entropy=0.318
+iter=79/500 games=15168 samples=7143 turns=49.3 wins=32.3% / 33.9% / 33.9% policyLoss=-0.0002 valueLoss=0.1196 entropy=0.339
+iter=80/500 games=15360 samples=7243 turns=47.9 wins=39.1% / 28.1% / 32.8% policyLoss=0.0016 valueLoss=0.1047 entropy=0.335
+stat-eval iter=80 rlWin=98.0% avgTurns=50.7 draws=0
+iter=81/500 games=15552 samples=7088 turns=53.3 wins=33.3% / 29.2% / 37.5% policyLoss=-0.0024 valueLoss=0.1161 entropy=0.365
+iter=82/500 games=15744 samples=6827 turns=46.5 wins=34.4% / 30.7% / 34.9% policyLoss=-0.0018 valueLoss=0.1131 entropy=0.347
+iter=83/500 games=15936 samples=7080 turns=50.2 wins=31.8% / 31.3% / 36.5% policyLoss=-0.0010 valueLoss=0.0963 entropy=0.334
+iter=84/500 games=16128 samples=6786 turns=46.6 wins=33.9% / 31.8% / 34.4% policyLoss=-0.0001 valueLoss=0.1056 entropy=0.355
+iter=85/500 games=16320 samples=7340 turns=51.6 wins=30.2% / 34.4% / 34.9% policyLoss=-0.0027 valueLoss=0.1129 entropy=0.302
+iter=86/500 games=16512 samples=7380 turns=46.6 wins=34.9% / 32.3% / 32.8% policyLoss=-0.0017 valueLoss=0.0933 entropy=0.291
+iter=87/500 games=16704 samples=7090 turns=47.3 wins=30.7% / 31.8% / 37.5% policyLoss=-0.0021 valueLoss=0.1158 entropy=0.303
+iter=88/500 games=16896 samples=6985 turns=48.4 wins=30.7% / 33.9% / 35.4% policyLoss=-0.0027 valueLoss=0.1110 entropy=0.283
+iter=89/500 games=17088 samples=7336 turns=48.0 wins=37.5% / 31.3% / 31.3% policyLoss=-0.0015 valueLoss=0.0859 entropy=0.296
+iter=90/500 games=17280 samples=7034 turns=49.3 wins=32.3% / 32.3% / 35.4% policyLoss=-0.0028 valueLoss=0.0881 entropy=0.284
+stat-eval iter=90 rlWin=100.0% avgTurns=42.1 draws=0
+  new best vs statistical: 100.0% → /Users/eunalee/Documents/GitHub/coup-ai-agent/models/ppo-agent-best-statistical.json
+iter=91/500 games=17472 samples=7056 turns=47.4 wins=40.6% / 27.1% / 32.3% policyLoss=-0.0005 valueLoss=0.0942 entropy=0.313
+iter=92/500 games=17664 samples=7114 turns=51.4 wins=39.6% / 28.6% / 31.3% policyLoss=-0.0021 valueLoss=0.0982 entropy=0.301
+iter=93/500 games=17856 samples=7382 turns=49.4 wins=35.9% / 31.3% / 32.3% policyLoss=-0.0003 valueLoss=0.0879 entropy=0.268
+iter=94/500 games=18048 samples=7396 turns=50.0 wins=33.3% / 32.8% / 33.9% policyLoss=-0.0008 valueLoss=0.0889 entropy=0.273
+iter=95/500 games=18240 samples=6475 turns=46.0 wins=39.6% / 33.9% / 26.6% policyLoss=-0.0000 valueLoss=0.1065 entropy=0.305
+iter=96/500 games=18432 samples=7323 turns=49.6 wins=39.1% / 30.7% / 30.2% policyLoss=0.0034 valueLoss=0.0928 entropy=0.263
+iter=97/500 games=18624 samples=7199 turns=47.7 wins=39.6% / 26.0% / 34.4% policyLoss=-0.0003 valueLoss=0.0854 entropy=0.264
+iter=98/500 games=18816 samples=7376 turns=49.1 wins=44.8% / 26.6% / 28.6% policyLoss=-0.0011 valueLoss=0.1066 entropy=0.253
+iter=99/500 games=19008 samples=6419 turns=42.3 wins=44.8% / 28.6% / 26.6% policyLoss=-0.0018 valueLoss=0.1144 entropy=0.283
+iter=100/500 games=19200 samples=7353 turns=52.4 wins=42.2% / 27.1% / 30.2% policyLoss=-0.0015 valueLoss=0.0865 entropy=0.234
+stat-eval iter=100 rlWin=99.0% avgTurns=42.0 draws=0
+iter=101/500 games=19392 samples=6751 turns=48.3 wins=47.4% / 27.1% / 25.5% policyLoss=0.0002 valueLoss=0.1052 entropy=0.253
+iter=102/500 games=19584 samples=7303 turns=47.3 wins=40.6% / 29.2% / 30.2% policyLoss=-0.0009 valueLoss=0.0918 entropy=0.201
+iter=103/500 games=19776 samples=7163 turns=46.8 wins=40.1% / 30.7% / 29.2% policyLoss=-0.0008 valueLoss=0.0820 entropy=0.210
+iter=104/500 games=19968 samples=6711 turns=44.7 wins=44.8% / 24.0% / 31.3% policyLoss=0.0010 valueLoss=0.0963 entropy=0.219
+iter=105/500 games=20160 samples=6929 turns=47.3 wins=42.2% / 24.0% / 33.9% policyLoss=0.0002 valueLoss=0.0925 entropy=0.250
+iter=106/500 games=20352 samples=7297 turns=50.5 wins=37.5% / 31.8% / 30.7% policyLoss=-0.0005 valueLoss=0.0955 entropy=0.221
+iter=107/500 games=20544 samples=6510 turns=45.0 wins=45.3% / 30.2% / 24.5% policyLoss=0.0002 valueLoss=0.0992 entropy=0.269
+iter=108/500 games=20736 samples=7024 turns=47.0 wins=47.9% / 24.5% / 27.6% policyLoss=-0.0009 valueLoss=0.1073 entropy=0.212
+iter=109/500 games=20928 samples=6654 turns=44.1 wins=44.8% / 26.6% / 28.6% policyLoss=-0.0003 valueLoss=0.0952 entropy=0.237
+iter=110/500 games=21120 samples=7255 turns=47.2 wins=39.6% / 33.9% / 26.6% policyLoss=-0.0002 valueLoss=0.0856 entropy=0.222
+stat-eval iter=110 rlWin=99.0% avgTurns=43.8 draws=0
+iter=111/500 games=21312 samples=5928 turns=42.0 wins=48.4% / 27.1% / 24.5% policyLoss=0.0010 valueLoss=0.1436 entropy=0.281
+iter=112/500 games=21504 samples=7231 turns=48.4 wins=37.5% / 27.6% / 34.9% policyLoss=-0.0010 valueLoss=0.0991 entropy=0.252
+iter=113/500 games=21696 samples=7748 turns=50.8 wins=43.2% / 26.0% / 30.7% policyLoss=-0.0005 valueLoss=0.0769 entropy=0.232
+iter=114/500 games=21888 samples=6975 turns=52.2 wins=48.4% / 28.6% / 22.4% policyLoss=0.0013 valueLoss=0.0862 entropy=0.246
+iter=115/500 games=22080 samples=6437 turns=44.3 wins=49.0% / 28.6% / 22.4% policyLoss=-0.0004 valueLoss=0.1179 entropy=0.267
+iter=116/500 games=22272 samples=6741 turns=48.1 wins=43.2% / 27.6% / 29.2% policyLoss=-0.0010 valueLoss=0.0993 entropy=0.242
+iter=117/500 games=22464 samples=7017 turns=48.4 wins=47.4% / 24.5% / 28.1% policyLoss=-0.0027 valueLoss=0.0903 entropy=0.245
+iter=118/500 games=22656 samples=7532 turns=50.3 wins=44.8% / 28.6% / 26.6% policyLoss=-0.0018 valueLoss=0.0924 entropy=0.211
+iter=119/500 games=22848 samples=7064 turns=47.7 wins=46.9% / 25.5% / 27.6% policyLoss=-0.0007 valueLoss=0.1127 entropy=0.217
+iter=120/500 games=23040 samples=7183 turns=48.2 wins=42.2% / 23.4% / 34.4% policyLoss=-0.0014 valueLoss=0.0977 entropy=0.205
+stat-eval iter=120 rlWin=98.0% avgTurns=39.5 draws=0
+iter=121/500 games=23232 samples=7289 turns=49.7 wins=44.8% / 28.1% / 27.1% policyLoss=0.0008 valueLoss=0.0939 entropy=0.228
+iter=122/500 games=23424 samples=7116 turns=46.5 wins=49.0% / 25.0% / 26.0% policyLoss=-0.0010 valueLoss=0.0980 entropy=0.246
+iter=123/500 games=23616 samples=7061 turns=47.7 wins=54.7% / 21.4% / 24.0% policyLoss=-0.0012 valueLoss=0.1045 entropy=0.224
+iter=124/500 games=23808 samples=6972 turns=46.6 wins=40.6% / 26.0% / 33.3% policyLoss=0.0004 valueLoss=0.1027 entropy=0.240
+iter=125/500 games=24000 samples=6771 turns=48.3 wins=51.0% / 26.6% / 22.4% policyLoss=-0.0002 valueLoss=0.1008 entropy=0.248
+iter=126/500 games=24192 samples=6779 turns=47.7 wins=50.0% / 21.9% / 28.1% policyLoss=-0.0006 valueLoss=0.1026 entropy=0.250
+iter=127/500 games=24384 samples=7191 turns=48.4 wins=52.1% / 21.4% / 26.6% policyLoss=-0.0004 valueLoss=0.0882 entropy=0.234
+iter=128/500 games=24576 samples=6516 turns=48.6 wins=46.9% / 24.5% / 28.6% policyLoss=0.0007 valueLoss=0.1086 entropy=0.258
+iter=129/500 games=24768 samples=6969 turns=48.5 wins=46.9% / 21.9% / 31.3% policyLoss=0.0000 valueLoss=0.0945 entropy=0.262
+iter=130/500 games=24960 samples=7119 turns=48.4 wins=45.8% / 27.1% / 27.1% policyLoss=-0.0021 valueLoss=0.1043 entropy=0.239
+stat-eval iter=130 rlWin=98.5% avgTurns=45.4 draws=0
+iter=131/500 games=25152 samples=6983 turns=49.2 wins=44.3% / 25.0% / 30.7% policyLoss=-0.0018 valueLoss=0.0953 entropy=0.217
+iter=132/500 games=25344 samples=6908 turns=47.6 wins=47.9% / 25.5% / 26.6% policyLoss=-0.0007 valueLoss=0.0968 entropy=0.251
+iter=133/500 games=25536 samples=6902 turns=45.4 wins=55.7% / 19.8% / 24.5% policyLoss=0.0005 valueLoss=0.0865 entropy=0.263
+iter=134/500 games=25728 samples=6794 turns=48.5 wins=49.5% / 18.8% / 31.8% policyLoss=-0.0010 valueLoss=0.1046 entropy=0.252
+iter=135/500 games=25920 samples=6800 turns=50.2 wins=42.7% / 28.1% / 29.2% policyLoss=-0.0008 valueLoss=0.1073 entropy=0.232
+iter=136/500 games=26112 samples=6727 turns=49.5 wins=51.6% / 27.1% / 20.8% policyLoss=-0.0013 valueLoss=0.1127 entropy=0.239
+iter=137/500 games=26304 samples=6610 turns=47.2 wins=43.8% / 25.5% / 30.7% policyLoss=-0.0015 valueLoss=0.1074 entropy=0.244
+iter=138/500 games=26496 samples=6891 turns=48.8 wins=49.0% / 25.0% / 26.0% policyLoss=-0.0008 valueLoss=0.1106 entropy=0.265
+iter=139/500 games=26688 samples=6861 turns=47.3 wins=48.4% / 34.9% / 16.7% policyLoss=0.0007 valueLoss=0.1228 entropy=0.230
+iter=140/500 games=26880 samples=6296 turns=47.8 wins=49.5% / 24.0% / 26.0% policyLoss=0.0001 valueLoss=0.1011 entropy=0.267
+stat-eval iter=140 rlWin=99.0% avgTurns=47.5 draws=1
+iter=141/500 games=27072 samples=6124 turns=47.6 wins=52.1% / 27.1% / 20.8% policyLoss=0.0013 valueLoss=0.1076 entropy=0.267
+iter=142/500 games=27264 samples=6739 turns=48.0 wins=50.0% / 23.4% / 26.6% policyLoss=-0.0012 valueLoss=0.1172 entropy=0.286
+iter=143/500 games=27456 samples=6719 turns=44.8 wins=52.6% / 21.4% / 26.0% policyLoss=-0.0008 valueLoss=0.1196 entropy=0.269
+iter=144/500 games=27648 samples=6415 turns=44.8 wins=46.4% / 24.5% / 29.2% policyLoss=-0.0012 valueLoss=0.0979 entropy=0.305
+iter=145/500 games=27840 samples=6729 turns=47.2 wins=53.6% / 23.4% / 22.9% policyLoss=0.0008 valueLoss=0.1060 entropy=0.263
+iter=146/500 games=28032 samples=6959 turns=46.2 wins=46.4% / 25.5% / 28.1% policyLoss=-0.0007 valueLoss=0.1102 entropy=0.272
+iter=147/500 games=28224 samples=6656 turns=46.0 wins=49.0% / 28.1% / 22.9% policyLoss=-0.0016 valueLoss=0.1118 entropy=0.237
+iter=148/500 games=28416 samples=7058 turns=47.9 wins=46.9% / 27.6% / 25.5% policyLoss=-0.0013 valueLoss=0.0903 entropy=0.228
+iter=149/500 games=28608 samples=6903 turns=49.6 wins=48.4% / 23.4% / 28.1% policyLoss=0.0004 valueLoss=0.0939 entropy=0.198
+iter=150/500 games=28800 samples=6687 turns=46.3 wins=49.0% / 24.0% / 27.1% policyLoss=0.0022 valueLoss=0.1248 entropy=0.247
+stat-eval iter=150 rlWin=100.0% avgTurns=43.6 draws=0
+iter=151/500 games=28992 samples=6512 turns=45.3 wins=46.4% / 26.6% / 27.1% policyLoss=-0.0028 valueLoss=0.1195 entropy=0.219
+iter=152/500 games=29184 samples=5892 turns=47.0 wins=47.9% / 24.0% / 27.6% policyLoss=0.0008 valueLoss=0.1232 entropy=0.233
+iter=153/500 games=29376 samples=6703 turns=49.1 wins=44.8% / 29.7% / 25.5% policyLoss=-0.0011 valueLoss=0.1174 entropy=0.224
+iter=154/500 games=29568 samples=5897 turns=44.1 wins=52.1% / 27.6% / 20.3% policyLoss=-0.0000 valueLoss=0.1439 entropy=0.250
+iter=155/500 games=29760 samples=6703 turns=49.4 wins=47.9% / 21.4% / 30.7% policyLoss=-0.0018 valueLoss=0.1330 entropy=0.215
+iter=156/500 games=29952 samples=6280 turns=43.5 wins=55.2% / 18.2% / 26.6% policyLoss=-0.0004 valueLoss=0.1060 entropy=0.245
+iter=157/500 games=30144 samples=6057 turns=45.3 wins=49.0% / 29.2% / 21.9% policyLoss=-0.0000 valueLoss=0.1397 entropy=0.239
+iter=158/500 games=30336 samples=6793 turns=46.5 wins=52.1% / 21.4% / 26.6% policyLoss=-0.0018 valueLoss=0.1246 entropy=0.229
+iter=159/500 games=30528 samples=6325 turns=47.1 wins=50.0% / 26.0% / 24.0% policyLoss=0.0003 valueLoss=0.1371 entropy=0.267
+iter=160/500 games=30720 samples=6329 turns=47.9 wins=52.6% / 24.5% / 22.4% policyLoss=0.0006 valueLoss=0.1296 entropy=0.243
+stat-eval iter=160 rlWin=98.5% avgTurns=42.0 draws=0
+iter=161/500 games=30912 samples=6596 turns=47.8 wins=49.0% / 26.0% / 25.0% policyLoss=0.0004 valueLoss=0.1147 entropy=0.237
+iter=162/500 games=31104 samples=6606 turns=47.6 wins=45.3% / 25.5% / 29.2% policyLoss=-0.0002 valueLoss=0.1114 entropy=0.256
+iter=163/500 games=31296 samples=6335 turns=45.3 wins=46.9% / 28.6% / 24.5% policyLoss=0.0004 valueLoss=0.1190 entropy=0.248
+iter=164/500 games=31488 samples=6366 turns=42.5 wins=54.7% / 24.5% / 20.8% policyLoss=-0.0006 valueLoss=0.1154 entropy=0.273
+iter=165/500 games=31680 samples=6328 turns=46.6 wins=50.0% / 21.9% / 28.1% policyLoss=-0.0011 valueLoss=0.1081 entropy=0.216
+iter=166/500 games=31872 samples=6455 turns=52.1 wins=51.6% / 22.9% / 25.0% policyLoss=-0.0018 valueLoss=0.1250 entropy=0.281
+iter=167/500 games=32064 samples=6486 turns=46.8 wins=53.1% / 25.0% / 21.9% policyLoss=-0.0004 valueLoss=0.1209 entropy=0.267
+iter=168/500 games=32256 samples=6290 turns=47.3 wins=53.6% / 23.4% / 22.9% policyLoss=-0.0029 valueLoss=0.1107 entropy=0.222
+iter=169/500 games=32448 samples=6803 turns=48.9 wins=50.5% / 19.8% / 29.7% policyLoss=-0.0019 valueLoss=0.1143 entropy=0.241
+iter=170/500 games=32640 samples=6281 turns=46.6 wins=53.1% / 21.9% / 25.0% policyLoss=-0.0026 valueLoss=0.1251 entropy=0.246
+stat-eval iter=170 rlWin=100.0% avgTurns=47.6 draws=0
+iter=171/500 games=32832 samples=6172 turns=45.5 wins=57.3% / 25.5% / 17.2% policyLoss=0.0015 valueLoss=0.1280 entropy=0.255
+iter=172/500 games=33024 samples=6107 turns=48.8 wins=56.3% / 26.0% / 17.2% policyLoss=-0.0021 valueLoss=0.1288 entropy=0.258
+iter=173/500 games=33216 samples=6723 turns=48.6 wins=53.6% / 24.0% / 22.4% policyLoss=-0.0035 valueLoss=0.0974 entropy=0.221
+iter=174/500 games=33408 samples=6303 turns=45.6 wins=42.7% / 30.2% / 27.1% policyLoss=0.0002 valueLoss=0.1253 entropy=0.261
+iter=175/500 games=33600 samples=6530 turns=46.8 wins=53.1% / 29.2% / 17.7% policyLoss=-0.0010 valueLoss=0.1137 entropy=0.274
+iter=176/500 games=33792 samples=6680 turns=49.2 wins=52.6% / 26.0% / 21.4% policyLoss=-0.0011 valueLoss=0.1276 entropy=0.257
+iter=177/500 games=33984 samples=6257 turns=44.3 wins=51.6% / 27.6% / 20.8% policyLoss=-0.0006 valueLoss=0.1152 entropy=0.220
+iter=178/500 games=34176 samples=5911 turns=47.1 wins=49.0% / 28.1% / 22.4% policyLoss=0.0001 valueLoss=0.1162 entropy=0.245
+iter=179/500 games=34368 samples=5951 turns=45.5 wins=53.1% / 32.8% / 14.1% policyLoss=0.0025 valueLoss=0.1134 entropy=0.279
+iter=180/500 games=34560 samples=5817 turns=46.5 wins=57.3% / 23.4% / 19.3% policyLoss=-0.0000 valueLoss=0.1237 entropy=0.259
+stat-eval iter=180 rlWin=99.5% avgTurns=46.7 draws=0
+iter=181/500 games=34752 samples=5631 turns=43.4 wins=62.0% / 21.9% / 16.1% policyLoss=-0.0016 valueLoss=0.1209 entropy=0.293
+iter=182/500 games=34944 samples=5477 turns=43.5 wins=60.4% / 21.9% / 17.7% policyLoss=-0.0002 valueLoss=0.1247 entropy=0.301
+iter=183/500 games=35136 samples=6158 turns=43.6 wins=59.9% / 23.4% / 16.7% policyLoss=0.0001 valueLoss=0.1178 entropy=0.259
+iter=184/500 games=35328 samples=6029 turns=44.9 wins=52.6% / 28.1% / 19.3% policyLoss=-0.0023 valueLoss=0.1505 entropy=0.278
+iter=185/500 games=35520 samples=5821 turns=43.5 wins=60.9% / 21.4% / 17.7% policyLoss=0.0001 valueLoss=0.1157 entropy=0.290
+iter=186/500 games=35712 samples=5792 turns=44.7 wins=53.1% / 25.5% / 21.4% policyLoss=-0.0036 valueLoss=0.1436 entropy=0.241
+iter=187/500 games=35904 samples=5916 turns=46.4 wins=54.2% / 30.2% / 15.6% policyLoss=0.0006 valueLoss=0.1280 entropy=0.276
+iter=188/500 games=36096 samples=5785 turns=45.6 wins=54.2% / 22.4% / 23.4% policyLoss=-0.0013 valueLoss=0.1209 entropy=0.231
+iter=189/500 games=36288 samples=5965 turns=44.7 wins=53.1% / 28.6% / 18.2% policyLoss=0.0001 valueLoss=0.1380 entropy=0.253
+iter=190/500 games=36480 samples=5842 turns=45.3 wins=55.2% / 20.8% / 23.4% policyLoss=-0.0003 valueLoss=0.1461 entropy=0.245
+stat-eval iter=190 rlWin=98.0% avgTurns=42.1 draws=0
+iter=191/500 games=36672 samples=6121 turns=44.2 wins=55.2% / 25.5% / 19.3% policyLoss=-0.0007 valueLoss=0.1255 entropy=0.261
+iter=192/500 games=36864 samples=5896 turns=44.1 wins=51.0% / 27.1% / 21.9% policyLoss=0.0007 valueLoss=0.1445 entropy=0.264
+iter=193/500 games=37056 samples=5342 turns=41.4 wins=50.0% / 24.0% / 26.0% policyLoss=-0.0005 valueLoss=0.1401 entropy=0.285
+iter=194/500 games=37248 samples=5795 turns=43.3 wins=56.8% / 27.1% / 16.1% policyLoss=-0.0008 valueLoss=0.1321 entropy=0.276
+iter=195/500 games=37440 samples=5319 turns=43.1 wins=62.0% / 21.4% / 16.7% policyLoss=0.0009 valueLoss=0.1305 entropy=0.303
+iter=196/500 games=37632 samples=5784 turns=44.8 wins=58.9% / 24.0% / 17.2% policyLoss=-0.0014 valueLoss=0.1377 entropy=0.272
+iter=197/500 games=37824 samples=5744 turns=44.6 wins=58.3% / 25.0% / 16.7% policyLoss=-0.0022 valueLoss=0.1318 entropy=0.306
+iter=198/500 games=38016 samples=5881 turns=44.1 wins=53.1% / 29.7% / 17.2% policyLoss=-0.0007 valueLoss=0.1304 entropy=0.256
+iter=199/500 games=38208 samples=6020 turns=47.4 wins=51.6% / 29.2% / 18.8% policyLoss=-0.0006 valueLoss=0.1177 entropy=0.243
+iter=200/500 games=38400 samples=5562 turns=44.1 wins=58.3% / 22.4% / 19.3% policyLoss=-0.0006 valueLoss=0.1319 entropy=0.257
+stat-eval iter=200 rlWin=97.0% avgTurns=44.2 draws=0
+iter=201/500 games=38592 samples=4967 turns=41.5 wins=58.9% / 23.4% / 17.7% policyLoss=-0.0002 valueLoss=0.1751 entropy=0.307
+iter=202/500 games=38784 samples=5877 turns=43.8 wins=59.4% / 22.9% / 17.7% policyLoss=-0.0000 valueLoss=0.1264 entropy=0.245
+iter=203/500 games=38976 samples=5770 turns=44.4 wins=62.5% / 25.0% / 12.5% policyLoss=0.0041 valueLoss=0.1255 entropy=0.280
+iter=204/500 games=39168 samples=5844 turns=44.7 wins=54.7% / 24.0% / 21.4% policyLoss=-0.0016 valueLoss=0.1091 entropy=0.251
+iter=205/500 games=39360 samples=5419 turns=42.2 wins=55.7% / 30.2% / 14.1% policyLoss=0.0005 valueLoss=0.1467 entropy=0.295
+iter=206/500 games=39552 samples=5836 turns=47.5 wins=58.3% / 21.4% / 19.8% policyLoss=-0.0010 valueLoss=0.1392 entropy=0.255
+iter=207/500 games=39744 samples=5632 turns=43.2 wins=57.8% / 24.5% / 17.7% policyLoss=0.0005 valueLoss=0.1488 entropy=0.303
+iter=208/500 games=39936 samples=5360 turns=42.9 wins=53.1% / 25.5% / 21.4% policyLoss=-0.0008 valueLoss=0.1518 entropy=0.254
+iter=209/500 games=40128 samples=5615 turns=42.1 wins=52.1% / 29.2% / 18.8% policyLoss=-0.0013 valueLoss=0.1498 entropy=0.262
+iter=210/500 games=40320 samples=5755 turns=43.6 wins=49.0% / 28.6% / 21.9% policyLoss=0.0008 valueLoss=0.1293 entropy=0.236
+stat-eval iter=210 rlWin=90.5% avgTurns=41.7 draws=0
+iter=211/500 games=40512 samples=5531 turns=42.1 wins=58.9% / 23.4% / 17.7% policyLoss=-0.0003 valueLoss=0.1400 entropy=0.258
+iter=212/500 games=40704 samples=5459 turns=41.2 wins=59.9% / 20.8% / 19.3% policyLoss=0.0002 valueLoss=0.1302 entropy=0.270
+iter=213/500 games=40896 samples=5428 turns=40.8 wins=60.9% / 26.0% / 13.0% policyLoss=-0.0022 valueLoss=0.1463 entropy=0.255
+iter=214/500 games=41088 samples=5788 turns=45.2 wins=56.3% / 27.1% / 16.7% policyLoss=-0.0007 valueLoss=0.1605 entropy=0.237
+iter=215/500 games=41280 samples=5376 turns=41.7 wins=53.6% / 28.6% / 17.7% policyLoss=0.0005 valueLoss=0.1415 entropy=0.253
+iter=216/500 games=41472 samples=5306 turns=44.1 wins=53.1% / 24.0% / 22.9% policyLoss=-0.0007 valueLoss=0.1715 entropy=0.300
+iter=217/500 games=41664 samples=5454 turns=41.1 wins=55.7% / 26.6% / 17.7% policyLoss=-0.0022 valueLoss=0.1176 entropy=0.252
+iter=218/500 games=41856 samples=6020 turns=46.0 wins=50.0% / 27.1% / 22.9% policyLoss=-0.0013 valueLoss=0.1321 entropy=0.209
+iter=219/500 games=42048 samples=5941 turns=43.5 wins=55.2% / 26.0% / 18.8% policyLoss=-0.0009 valueLoss=0.1516 entropy=0.226
+iter=220/500 games=42240 samples=5983 turns=43.9 wins=56.8% / 25.0% / 18.2% policyLoss=-0.0013 valueLoss=0.1301 entropy=0.235
+stat-eval iter=220 rlWin=96.0% avgTurns=41.0 draws=0
+iter=221/500 games=42432 samples=5543 turns=44.7 wins=59.4% / 23.4% / 17.2% policyLoss=-0.0007 valueLoss=0.1514 entropy=0.251
+iter=222/500 games=42624 samples=5634 turns=43.5 wins=57.8% / 24.5% / 17.7% policyLoss=-0.0029 valueLoss=0.1361 entropy=0.231
+iter=223/500 games=42816 samples=5840 turns=43.9 wins=55.7% / 28.1% / 16.1% policyLoss=-0.0003 valueLoss=0.1148 entropy=0.223
+iter=224/500 games=43008 samples=5719 turns=43.8 wins=57.3% / 22.4% / 20.3% policyLoss=-0.0011 valueLoss=0.1196 entropy=0.204
+iter=225/500 games=43200 samples=6156 turns=44.9 wins=53.6% / 25.5% / 20.8% policyLoss=-0.0008 valueLoss=0.1195 entropy=0.180
+iter=226/500 games=43392 samples=6053 turns=44.4 wins=56.3% / 29.7% / 14.1% policyLoss=-0.0001 valueLoss=0.1201 entropy=0.214
+iter=227/500 games=43584 samples=5622 turns=44.4 wins=61.5% / 19.8% / 18.8% policyLoss=0.0019 valueLoss=0.1248 entropy=0.239
+iter=228/500 games=43776 samples=5940 turns=45.8 wins=61.5% / 24.0% / 14.6% policyLoss=0.0016 valueLoss=0.0987 entropy=0.231
+iter=229/500 games=43968 samples=5790 turns=44.9 wins=50.0% / 24.5% / 25.5% policyLoss=-0.0037 valueLoss=0.1201 entropy=0.216
+iter=230/500 games=44160 samples=5737 turns=43.4 wins=57.8% / 21.4% / 20.8% policyLoss=0.0003 valueLoss=0.1293 entropy=0.243
+stat-eval iter=230 rlWin=98.0% avgTurns=44.9 draws=0
+iter=231/500 games=44352 samples=5960 turns=43.9 wins=53.6% / 30.2% / 16.1% policyLoss=-0.0001 valueLoss=0.1235 entropy=0.254
+iter=232/500 games=44544 samples=5745 turns=42.5 wins=59.4% / 23.4% / 17.2% policyLoss=-0.0030 valueLoss=0.1354 entropy=0.255
+iter=233/500 games=44736 samples=5768 turns=45.2 wins=57.3% / 24.5% / 18.2% policyLoss=-0.0038 valueLoss=0.1373 entropy=0.242
+iter=234/500 games=44928 samples=5727 turns=42.9 wins=63.0% / 18.2% / 18.8% policyLoss=-0.0007 valueLoss=0.1256 entropy=0.239
+iter=235/500 games=45120 samples=6055 turns=45.3 wins=56.3% / 26.6% / 17.2% policyLoss=0.0019 valueLoss=0.1273 entropy=0.233
+iter=236/500 games=45312 samples=5726 turns=43.5 wins=56.8% / 27.6% / 15.6% policyLoss=-0.0037 valueLoss=0.1268 entropy=0.239
+iter=237/500 games=45504 samples=6053 turns=45.0 wins=53.6% / 22.4% / 24.0% policyLoss=-0.0009 valueLoss=0.1113 entropy=0.229
+iter=238/500 games=45696 samples=5549 turns=41.8 wins=59.4% / 19.8% / 20.8% policyLoss=-0.0014 valueLoss=0.1390 entropy=0.247
+iter=239/500 games=45888 samples=5611 turns=42.9 wins=50.5% / 27.1% / 22.4% policyLoss=-0.0001 valueLoss=0.1405 entropy=0.228
+iter=240/500 games=46080 samples=5342 turns=39.6 wins=53.1% / 27.1% / 19.8% policyLoss=0.0022 valueLoss=0.1658 entropy=0.259
+stat-eval iter=240 rlWin=74.5% avgTurns=31.8 draws=0
+iter=241/500 games=46272 samples=5689 turns=43.6 wins=43.2% / 28.1% / 28.6% policyLoss=-0.0009 valueLoss=0.1575 entropy=0.197
+iter=242/500 games=46464 samples=5765 turns=43.7 wins=59.9% / 20.3% / 19.3% policyLoss=0.0013 valueLoss=0.1145 entropy=0.265
+iter=243/500 games=46656 samples=5512 turns=42.2 wins=47.9% / 24.0% / 28.1% policyLoss=-0.0012 valueLoss=0.1264 entropy=0.210
+iter=244/500 games=46848 samples=5757 turns=42.4 wins=54.2% / 25.0% / 20.8% policyLoss=0.0002 valueLoss=0.1215 entropy=0.238
+iter=245/500 games=47040 samples=5609 turns=44.7 wins=46.9% / 30.2% / 22.4% policyLoss=-0.0003 valueLoss=0.1534 entropy=0.254
+iter=246/500 games=47232 samples=5112 turns=39.3 wins=56.3% / 26.6% / 17.2% policyLoss=-0.0016 valueLoss=0.1422 entropy=0.269
+iter=247/500 games=47424 samples=5844 turns=43.4 wins=44.8% / 31.3% / 24.0% policyLoss=0.0024 valueLoss=0.1272 entropy=0.259
+iter=248/500 games=47616 samples=5364 turns=40.9 wins=51.6% / 26.6% / 21.9% policyLoss=0.0003 valueLoss=0.1571 entropy=0.283
+iter=249/500 games=47808 samples=5126 turns=41.3 wins=45.3% / 29.2% / 25.0% policyLoss=0.0022 valueLoss=0.1906 entropy=0.273
+iter=250/500 games=48000 samples=4984 turns=36.2 wins=55.2% / 26.0% / 18.8% policyLoss=-0.0016 valueLoss=0.1511 entropy=0.284
+stat-eval iter=250 rlWin=32.5% avgTurns=27.1 draws=2
+iter=251/500 games=48192 samples=4666 turns=39.4 wins=47.9% / 30.7% / 20.8% policyLoss=0.0013 valueLoss=0.2162 entropy=0.247
+iter=252/500 games=48384 samples=5416 turns=42.7 wins=42.2% / 31.8% / 25.5% policyLoss=-0.0021 valueLoss=0.1618 entropy=0.246
+iter=253/500 games=48576 samples=5254 turns=42.0 wins=45.3% / 30.7% / 24.0% policyLoss=0.0043 valueLoss=0.1602 entropy=0.262
+iter=254/500 games=48768 samples=4840 turns=39.7 wins=54.7% / 27.6% / 17.7% policyLoss=-0.0005 valueLoss=0.1733 entropy=0.295
+iter=255/500 games=48960 samples=5145 turns=41.6 wins=37.5% / 38.5% / 24.0% policyLoss=-0.0000 valueLoss=0.1660 entropy=0.232
+iter=256/500 games=49152 samples=5311 turns=38.5 wins=38.0% / 34.4% / 27.6% policyLoss=0.0009 valueLoss=0.1621 entropy=0.258
+iter=257/500 games=49344 samples=5278 turns=43.7 wins=43.2% / 34.4% / 21.9% policyLoss=-0.0027 valueLoss=0.1983 entropy=0.263
+iter=258/500 games=49536 samples=5157 turns=39.5 wins=50.5% / 22.9% / 26.6% policyLoss=-0.0004 valueLoss=0.1675 entropy=0.236
+iter=259/500 games=49728 samples=4760 turns=39.7 wins=43.2% / 28.6% / 28.1% policyLoss=-0.0004 valueLoss=0.1972 entropy=0.278
+iter=260/500 games=49920 samples=4994 turns=42.8 wins=47.4% / 27.6% / 24.5% policyLoss=-0.0014 valueLoss=0.1700 entropy=0.251
+stat-eval iter=260 rlWin=63.0% avgTurns=27.6 draws=0
+iter=261/500 games=50112 samples=5288 turns=44.2 wins=48.4% / 27.1% / 24.0% policyLoss=-0.0029 valueLoss=0.1584 entropy=0.277
+iter=262/500 games=50304 samples=5031 turns=39.1 wins=48.4% / 24.0% / 27.6% policyLoss=-0.0016 valueLoss=0.1755 entropy=0.286
+iter=263/500 games=50496 samples=5312 turns=41.0 wins=40.6% / 30.2% / 29.2% policyLoss=-0.0025 valueLoss=0.1605 entropy=0.267
+iter=264/500 games=50688 samples=5114 turns=41.0 wins=43.8% / 27.6% / 28.6% policyLoss=-0.0004 valueLoss=0.1718 entropy=0.247
+iter=265/500 games=50880 samples=5441 turns=43.8 wins=45.3% / 30.7% / 23.4% policyLoss=-0.0011 valueLoss=0.1676 entropy=0.241
+iter=266/500 games=51072 samples=5361 turns=41.6 wins=50.0% / 32.3% / 17.7% policyLoss=-0.0017 valueLoss=0.1655 entropy=0.290
+iter=267/500 games=51264 samples=5594 turns=44.9 wins=45.3% / 28.1% / 26.6% policyLoss=-0.0001 valueLoss=0.1582 entropy=0.229
+iter=268/500 games=51456 samples=5418 turns=41.1 wins=48.4% / 23.4% / 28.1% policyLoss=-0.0009 valueLoss=0.1589 entropy=0.208
+iter=269/500 games=51648 samples=5668 turns=43.8 wins=48.4% / 26.6% / 25.0% policyLoss=-0.0003 valueLoss=0.1313 entropy=0.198
+iter=270/500 games=51840 samples=5950 turns=44.0 wins=47.9% / 28.6% / 23.4% policyLoss=0.0004 valueLoss=0.1318 entropy=0.211
+stat-eval iter=270 rlWin=78.5% avgTurns=35.3 draws=0
+iter=271/500 games=52032 samples=5680 turns=43.5 wins=42.2% / 30.7% / 27.1% policyLoss=-0.0022 valueLoss=0.1484 entropy=0.186
+iter=272/500 games=52224 samples=6129 turns=42.3 wins=45.3% / 30.2% / 24.5% policyLoss=-0.0004 valueLoss=0.1394 entropy=0.219
+iter=273/500 games=52416 samples=5578 turns=42.5 wins=55.2% / 26.6% / 18.2% policyLoss=-0.0003 valueLoss=0.1350 entropy=0.226
+iter=274/500 games=52608 samples=5715 turns=42.4 wins=47.4% / 30.7% / 21.9% policyLoss=-0.0006 valueLoss=0.1164 entropy=0.190
+iter=275/500 games=52800 samples=5510 turns=41.0 wins=53.6% / 26.6% / 19.8% policyLoss=-0.0020 valueLoss=0.1542 entropy=0.198
+iter=276/500 games=52992 samples=5413 turns=41.4 wins=51.6% / 28.1% / 20.3% policyLoss=-0.0010 valueLoss=0.1392 entropy=0.228
+iter=277/500 games=53184 samples=5858 turns=43.6 wins=56.3% / 22.4% / 21.4% policyLoss=-0.0011 valueLoss=0.1413 entropy=0.206
+iter=278/500 games=53376 samples=6160 turns=47.0 wins=53.6% / 24.5% / 21.9% policyLoss=-0.0003 valueLoss=0.1066 entropy=0.188
+iter=279/500 games=53568 samples=5804 turns=41.5 wins=50.0% / 27.6% / 22.4% policyLoss=0.0007 valueLoss=0.1311 entropy=0.244
+iter=280/500 games=53760 samples=5836 turns=43.4 wins=57.8% / 20.8% / 21.4% policyLoss=-0.0001 valueLoss=0.1387 entropy=0.217
+stat-eval iter=280 rlWin=88.0% avgTurns=34.0 draws=0
+iter=281/500 games=53952 samples=6133 turns=41.4 wins=48.4% / 22.4% / 29.2% policyLoss=0.0004 valueLoss=0.1277 entropy=0.243
+iter=282/500 games=54144 samples=5908 turns=42.8 wins=44.8% / 31.3% / 24.0% policyLoss=0.0002 valueLoss=0.1473 entropy=0.226
+iter=283/500 games=54336 samples=5636 turns=39.6 wins=54.2% / 25.0% / 20.8% policyLoss=0.0001 valueLoss=0.1326 entropy=0.227
+iter=284/500 games=54528 samples=5686 turns=42.5 wins=54.7% / 25.5% / 19.8% policyLoss=0.0001 valueLoss=0.1197 entropy=0.241
+iter=285/500 games=54720 samples=5606 turns=39.9 wins=52.6% / 27.6% / 19.8% policyLoss=-0.0014 valueLoss=0.1389 entropy=0.220
+iter=286/500 games=54912 samples=5502 turns=42.3 wins=57.3% / 27.1% / 15.6% policyLoss=-0.0004 valueLoss=0.1438 entropy=0.235
+iter=287/500 games=55104 samples=5433 turns=40.3 wins=60.4% / 19.3% / 20.3% policyLoss=0.0005 valueLoss=0.1342 entropy=0.218
+iter=288/500 games=55296 samples=5973 turns=42.4 wins=50.5% / 25.0% / 24.5% policyLoss=-0.0020 valueLoss=0.1199 entropy=0.187
+iter=289/500 games=55488 samples=5566 turns=42.7 wins=51.0% / 28.1% / 20.8% policyLoss=0.0004 valueLoss=0.1606 entropy=0.204
+iter=290/500 games=55680 samples=6226 turns=43.2 wins=53.6% / 25.5% / 20.8% policyLoss=-0.0010 valueLoss=0.1145 entropy=0.204
+stat-eval iter=290 rlWin=94.0% avgTurns=36.3 draws=0
+iter=291/500 games=55872 samples=5582 turns=39.8 wins=55.2% / 26.6% / 18.2% policyLoss=0.0003 valueLoss=0.1401 entropy=0.241
+iter=292/500 games=56064 samples=5864 turns=42.7 wins=52.1% / 29.7% / 18.2% policyLoss=0.0015 valueLoss=0.1214 entropy=0.224
+iter=293/500 games=56256 samples=5451 turns=41.1 wins=58.3% / 24.0% / 17.7% policyLoss=-0.0002 valueLoss=0.1640 entropy=0.237
+iter=294/500 games=56448 samples=5832 turns=41.7 wins=50.5% / 25.5% / 24.0% policyLoss=-0.0009 valueLoss=0.1231 entropy=0.228
+iter=295/500 games=56640 samples=5391 turns=39.6 wins=63.0% / 17.2% / 19.8% policyLoss=-0.0011 valueLoss=0.1485 entropy=0.231
+iter=296/500 games=56832 samples=6030 turns=42.0 wins=47.9% / 27.6% / 24.5% policyLoss=0.0000 valueLoss=0.1329 entropy=0.211
+iter=297/500 games=57024 samples=5795 turns=41.2 wins=51.6% / 28.1% / 20.3% policyLoss=0.0013 valueLoss=0.1398 entropy=0.241
+iter=298/500 games=57216 samples=5646 turns=40.8 wins=53.6% / 29.7% / 16.7% policyLoss=0.0041 valueLoss=0.1267 entropy=0.279
+iter=299/500 games=57408 samples=5294 turns=36.9 wins=54.2% / 24.5% / 21.4% policyLoss=-0.0010 valueLoss=0.1375 entropy=0.264
+iter=300/500 games=57600 samples=5388 turns=40.6 wins=45.8% / 29.2% / 25.0% policyLoss=-0.0008 valueLoss=0.1655 entropy=0.269
+stat-eval iter=300 rlWin=71.0% avgTurns=29.6 draws=0
+iter=301/500 games=57792 samples=5507 turns=40.4 wins=45.3% / 26.6% / 28.1% policyLoss=0.0002 valueLoss=0.1616 entropy=0.251
+iter=302/500 games=57984 samples=5510 turns=42.3 wins=52.6% / 22.9% / 24.5% policyLoss=0.0005 valueLoss=0.1547 entropy=0.253
+iter=303/500 games=58176 samples=5171 turns=37.3 wins=56.3% / 18.8% / 25.0% policyLoss=-0.0010 valueLoss=0.1576 entropy=0.249
+iter=304/500 games=58368 samples=5877 turns=42.8 wins=41.7% / 33.3% / 25.0% policyLoss=0.0006 valueLoss=0.1476 entropy=0.226
+iter=305/500 games=58560 samples=5472 turns=43.2 wins=49.0% / 27.1% / 23.4% policyLoss=-0.0004 valueLoss=0.1673 entropy=0.241
+iter=306/500 games=58752 samples=5585 turns=39.7 wins=44.3% / 28.6% / 27.1% policyLoss=-0.0002 valueLoss=0.1594 entropy=0.252
+iter=307/500 games=58944 samples=4930 turns=37.4 wins=55.7% / 22.9% / 21.4% policyLoss=-0.0006 valueLoss=0.1603 entropy=0.230
+iter=308/500 games=59136 samples=5551 turns=37.7 wins=42.2% / 26.0% / 31.8% policyLoss=0.0005 valueLoss=0.1554 entropy=0.223
+iter=309/500 games=59328 samples=5130 turns=38.0 wins=49.5% / 27.6% / 22.9% policyLoss=-0.0002 valueLoss=0.1599 entropy=0.245
+iter=310/500 games=59520 samples=5559 turns=40.5 wins=45.8% / 29.2% / 25.0% policyLoss=-0.0002 valueLoss=0.1371 entropy=0.217
+stat-eval iter=310 rlWin=68.0% avgTurns=29.0 draws=0
+iter=311/500 games=59712 samples=5426 turns=39.4 wins=58.3% / 18.8% / 22.9% policyLoss=0.0009 valueLoss=0.1327 entropy=0.223
+iter=312/500 games=59904 samples=5405 turns=41.6 wins=45.8% / 29.2% / 24.5% policyLoss=0.0002 valueLoss=0.1626 entropy=0.212
+iter=313/500 games=60096 samples=5666 turns=43.1 wins=40.1% / 28.1% / 31.3% policyLoss=0.0013 valueLoss=0.1493 entropy=0.233
+iter=314/500 games=60288 samples=5359 turns=42.1 wins=43.2% / 31.8% / 24.5% policyLoss=-0.0026 valueLoss=0.1783 entropy=0.247
+iter=315/500 games=60480 samples=5648 turns=39.8 wins=46.9% / 22.9% / 30.2% policyLoss=0.0006 valueLoss=0.1671 entropy=0.232
+iter=316/500 games=60672 samples=5579 turns=40.0 wins=41.1% / 24.5% / 34.4% policyLoss=0.0002 valueLoss=0.1435 entropy=0.195
+iter=317/500 games=60864 samples=5359 turns=40.9 wins=39.6% / 30.7% / 29.7% policyLoss=0.0001 valueLoss=0.1579 entropy=0.205
+iter=318/500 games=61056 samples=5586 turns=41.3 wins=42.7% / 29.7% / 27.6% policyLoss=-0.0029 valueLoss=0.1531 entropy=0.200
+iter=319/500 games=61248 samples=5876 turns=42.3 wins=44.8% / 27.1% / 28.1% policyLoss=-0.0016 valueLoss=0.1466 entropy=0.211
+iter=320/500 games=61440 samples=5438 turns=40.4 wins=44.3% / 27.6% / 28.1% policyLoss=-0.0015 valueLoss=0.1662 entropy=0.219
+stat-eval iter=320 rlWin=59.5% avgTurns=27.0 draws=0
+iter=321/500 games=61632 samples=5870 turns=39.8 wins=47.9% / 25.5% / 26.6% policyLoss=0.0000 valueLoss=0.1338 entropy=0.227
+iter=322/500 games=61824 samples=5875 turns=42.4 wins=41.7% / 30.7% / 27.1% policyLoss=-0.0029 valueLoss=0.1352 entropy=0.194
+iter=323/500 games=62016 samples=5895 turns=43.6 wins=40.6% / 27.1% / 32.3% policyLoss=-0.0010 valueLoss=0.1422 entropy=0.187
+iter=324/500 games=62208 samples=5594 turns=41.3 wins=46.4% / 27.6% / 26.0% policyLoss=-0.0002 valueLoss=0.1390 entropy=0.208
+iter=325/500 games=62400 samples=5662 turns=38.3 wins=43.8% / 27.1% / 29.2% policyLoss=-0.0002 valueLoss=0.1401 entropy=0.215
+iter=326/500 games=62592 samples=5610 turns=42.9 wins=35.9% / 30.7% / 32.8% policyLoss=-0.0013 valueLoss=0.1449 entropy=0.219
+iter=327/500 games=62784 samples=5913 turns=45.8 wins=43.8% / 26.0% / 29.7% policyLoss=-0.0015 valueLoss=0.1530 entropy=0.201
+iter=328/500 games=62976 samples=5609 turns=39.3 wins=52.6% / 21.9% / 25.5% policyLoss=0.0011 valueLoss=0.1590 entropy=0.215
+iter=329/500 games=63168 samples=5702 turns=42.4 wins=37.0% / 28.1% / 34.4% policyLoss=-0.0005 valueLoss=0.1541 entropy=0.224
+iter=330/500 games=63360 samples=5831 turns=42.0 wins=44.3% / 32.3% / 23.4% policyLoss=-0.0004 valueLoss=0.1336 entropy=0.213
+stat-eval iter=330 rlWin=68.5% avgTurns=29.3 draws=0
+iter=331/500 games=63552 samples=5968 turns=43.9 wins=41.1% / 27.1% / 31.8% policyLoss=-0.0009 valueLoss=0.1355 entropy=0.191
+iter=332/500 games=63744 samples=6076 turns=40.3 wins=41.7% / 26.6% / 31.8% policyLoss=-0.0011 valueLoss=0.1400 entropy=0.200
+iter=333/500 games=63936 samples=5874 turns=42.6 wins=39.1% / 31.8% / 28.6% policyLoss=0.0020 valueLoss=0.1337 entropy=0.196
+iter=334/500 games=64128 samples=6737 turns=45.6 wins=38.0% / 29.7% / 31.8% policyLoss=-0.0006 valueLoss=0.1144 entropy=0.209
+iter=335/500 games=64320 samples=5633 turns=39.4 wins=43.8% / 24.0% / 32.3% policyLoss=-0.0004 valueLoss=0.1370 entropy=0.201
+iter=336/500 games=64512 samples=5289 turns=38.7 wins=45.8% / 28.1% / 26.0% policyLoss=-0.0005 valueLoss=0.1658 entropy=0.249
+iter=337/500 games=64704 samples=5595 turns=39.7 wins=35.9% / 31.3% / 32.8% policyLoss=0.0012 valueLoss=0.1515 entropy=0.243
+iter=338/500 games=64896 samples=5191 turns=38.8 wins=40.6% / 33.9% / 25.5% policyLoss=0.0023 valueLoss=0.1595 entropy=0.279
+iter=339/500 games=65088 samples=4857 turns=39.5 wins=42.7% / 24.0% / 32.8% policyLoss=-0.0001 valueLoss=0.1851 entropy=0.272
+iter=340/500 games=65280 samples=5575 turns=40.9 wins=44.8% / 21.4% / 33.3% policyLoss=0.0010 valueLoss=0.1449 entropy=0.226
+stat-eval iter=340 rlWin=50.5% avgTurns=25.6 draws=2
+iter=341/500 games=65472 samples=5281 turns=40.3 wins=31.8% / 34.4% / 33.9% policyLoss=0.0071 valueLoss=0.1791 entropy=0.285
+iter=342/500 games=65664 samples=5245 turns=38.1 wins=29.7% / 32.3% / 38.0% policyLoss=-0.0012 valueLoss=0.1896 entropy=0.261
+iter=343/500 games=65856 samples=5175 turns=39.3 wins=41.7% / 24.5% / 33.9% policyLoss=-0.0026 valueLoss=0.1885 entropy=0.284
+iter=344/500 games=66048 samples=4991 turns=36.7 wins=43.2% / 27.6% / 29.2% policyLoss=-0.0013 valueLoss=0.1844 entropy=0.272
+iter=345/500 games=66240 samples=5005 turns=43.0 wins=29.7% / 34.4% / 35.4% policyLoss=-0.0001 valueLoss=0.1925 entropy=0.260
+iter=346/500 games=66432 samples=5273 turns=42.1 wins=28.6% / 38.0% / 32.8% policyLoss=0.0002 valueLoss=0.1781 entropy=0.272
+iter=347/500 games=66624 samples=5159 turns=44.7 wins=34.9% / 33.3% / 30.7% policyLoss=-0.0022 valueLoss=0.2195 entropy=0.249
+iter=348/500 games=66816 samples=5426 turns=39.3 wins=35.9% / 32.3% / 31.8% policyLoss=-0.0028 valueLoss=0.1744 entropy=0.262
+iter=349/500 games=67008 samples=5659 turns=39.9 wins=25.5% / 35.9% / 38.5% policyLoss=-0.0023 valueLoss=0.1569 entropy=0.229
+iter=350/500 games=67200 samples=5704 turns=39.2 wins=26.6% / 37.0% / 36.5% policyLoss=-0.0029 valueLoss=0.1500 entropy=0.196
+stat-eval iter=350 rlWin=66.0% avgTurns=24.6 draws=0
+iter=351/500 games=67392 samples=5791 turns=44.5 wins=38.0% / 35.9% / 25.5% policyLoss=-0.0019 valueLoss=0.1215 entropy=0.245
+iter=352/500 games=67584 samples=5481 turns=37.9 wins=41.1% / 29.7% / 29.2% policyLoss=-0.0009 valueLoss=0.1442 entropy=0.202
+iter=353/500 games=67776 samples=5819 turns=41.8 wins=34.9% / 32.3% / 32.8% policyLoss=-0.0011 valueLoss=0.1444 entropy=0.199
+iter=354/500 games=67968 samples=6137 turns=42.1 wins=31.3% / 30.7% / 38.0% policyLoss=-0.0025 valueLoss=0.1371 entropy=0.188
+iter=355/500 games=68160 samples=6272 turns=41.7 wins=30.7% / 36.5% / 32.8% policyLoss=0.0010 valueLoss=0.1241 entropy=0.200
+iter=356/500 games=68352 samples=6081 turns=41.5 wins=42.2% / 29.7% / 28.1% policyLoss=-0.0015 valueLoss=0.1244 entropy=0.227
+iter=357/500 games=68544 samples=5899 turns=41.7 wins=38.5% / 32.3% / 29.2% policyLoss=-0.0004 valueLoss=0.1498 entropy=0.210
+iter=358/500 games=68736 samples=6192 turns=41.1 wins=37.5% / 36.5% / 26.0% policyLoss=0.0002 valueLoss=0.1480 entropy=0.219
+iter=359/500 games=68928 samples=6637 turns=43.9 wins=35.4% / 32.8% / 31.3% policyLoss=-0.0011 valueLoss=0.1347 entropy=0.200
+iter=360/500 games=69120 samples=6609 turns=44.0 wins=42.2% / 35.4% / 22.4% policyLoss=-0.0007 valueLoss=0.1245 entropy=0.204
+stat-eval iter=360 rlWin=92.5% avgTurns=33.2 draws=0
+iter=361/500 games=69312 samples=6409 turns=42.4 wins=37.5% / 29.2% / 33.3% policyLoss=-0.0009 valueLoss=0.1272 entropy=0.193
+iter=362/500 games=69504 samples=5692 turns=41.3 wins=42.7% / 29.7% / 27.6% policyLoss=-0.0016 valueLoss=0.1378 entropy=0.188
+iter=363/500 games=69696 samples=6221 turns=47.1 wins=38.0% / 35.9% / 25.0% policyLoss=0.0015 valueLoss=0.1296 entropy=0.187
+iter=364/500 games=69888 samples=5757 turns=41.7 wins=45.3% / 28.6% / 26.0% policyLoss=0.0001 valueLoss=0.1249 entropy=0.225
+iter=365/500 games=70080 samples=6257 turns=42.7 wins=37.5% / 32.3% / 30.2% policyLoss=-0.0018 valueLoss=0.1217 entropy=0.197
+iter=366/500 games=70272 samples=6439 turns=43.7 wins=38.0% / 37.0% / 25.0% policyLoss=0.0013 valueLoss=0.1090 entropy=0.204
+iter=367/500 games=70464 samples=6464 turns=42.5 wins=45.8% / 29.7% / 24.5% policyLoss=-0.0021 valueLoss=0.1094 entropy=0.225
+iter=368/500 games=70656 samples=6520 turns=44.3 wins=40.6% / 31.8% / 27.6% policyLoss=0.0004 valueLoss=0.1339 entropy=0.233
+iter=369/500 games=70848 samples=5702 turns=41.0 wins=41.1% / 30.2% / 28.6% policyLoss=0.0004 valueLoss=0.1551 entropy=0.237
+iter=370/500 games=71040 samples=5880 turns=41.0 wins=45.3% / 31.8% / 22.9% policyLoss=0.0009 valueLoss=0.1485 entropy=0.263
+stat-eval iter=370 rlWin=99.5% avgTurns=38.7 draws=0
+iter=371/500 games=71232 samples=5496 turns=41.4 wins=44.3% / 29.7% / 26.0% policyLoss=-0.0018 valueLoss=0.1199 entropy=0.247
+iter=372/500 games=71424 samples=6047 turns=41.9 wins=43.8% / 30.2% / 26.0% policyLoss=-0.0018 valueLoss=0.1257 entropy=0.219
+iter=373/500 games=71616 samples=5975 turns=41.7 wins=42.7% / 30.7% / 26.6% policyLoss=0.0010 valueLoss=0.1422 entropy=0.244
+iter=374/500 games=71808 samples=5919 turns=40.3 wins=44.8% / 31.8% / 23.4% policyLoss=-0.0001 valueLoss=0.1265 entropy=0.254
+iter=375/500 games=72000 samples=6061 turns=40.8 wins=40.6% / 31.3% / 28.1% policyLoss=0.0014 valueLoss=0.1367 entropy=0.267
+iter=376/500 games=72192 samples=5658 turns=40.9 wins=40.6% / 28.1% / 31.3% policyLoss=-0.0007 valueLoss=0.1462 entropy=0.269
+iter=377/500 games=72384 samples=5756 turns=41.3 wins=46.9% / 30.2% / 22.9% policyLoss=-0.0013 valueLoss=0.1478 entropy=0.302
+iter=378/500 games=72576 samples=5725 turns=42.2 wins=40.1% / 29.7% / 30.2% policyLoss=-0.0020 valueLoss=0.1480 entropy=0.233
+iter=379/500 games=72768 samples=6041 turns=41.8 wins=44.3% / 32.8% / 22.9% policyLoss=0.0004 valueLoss=0.1293 entropy=0.256
+iter=380/500 games=72960 samples=5706 turns=42.0 wins=39.6% / 35.9% / 24.5% policyLoss=0.0000 valueLoss=0.1522 entropy=0.276
+stat-eval iter=380 rlWin=95.5% avgTurns=35.2 draws=0
+iter=381/500 games=73152 samples=6105 turns=44.1 wins=41.1% / 30.2% / 28.1% policyLoss=-0.0006 valueLoss=0.1141 entropy=0.283
+iter=382/500 games=73344 samples=5668 turns=41.2 wins=37.5% / 28.1% / 34.4% policyLoss=-0.0011 valueLoss=0.1444 entropy=0.258
+iter=383/500 games=73536 samples=5876 turns=42.5 wins=38.5% / 41.7% / 19.8% policyLoss=-0.0009 valueLoss=0.1295 entropy=0.271
+iter=384/500 games=73728 samples=5522 turns=40.9 wins=41.1% / 31.8% / 27.1% policyLoss=-0.0018 valueLoss=0.1555 entropy=0.264
+iter=385/500 games=73920 samples=5972 turns=45.6 wins=44.3% / 34.4% / 20.8% policyLoss=-0.0007 valueLoss=0.1185 entropy=0.237
+iter=386/500 games=74112 samples=6149 turns=42.2 wins=31.3% / 39.6% / 29.2% policyLoss=-0.0008 valueLoss=0.1198 entropy=0.215
+iter=387/500 games=74304 samples=6057 turns=42.9 wins=47.4% / 28.1% / 24.5% policyLoss=-0.0011 valueLoss=0.1195 entropy=0.262
+iter=388/500 games=74496 samples=5888 turns=43.5 wins=33.9% / 31.3% / 34.9% policyLoss=-0.0026 valueLoss=0.1438 entropy=0.246
+iter=389/500 games=74688 samples=5808 turns=41.7 wins=51.0% / 20.3% / 28.6% policyLoss=0.0006 valueLoss=0.1286 entropy=0.321
+iter=390/500 games=74880 samples=5913 turns=42.1 wins=41.7% / 27.6% / 30.7% policyLoss=-0.0008 valueLoss=0.1274 entropy=0.257
+stat-eval iter=390 rlWin=98.5% avgTurns=40.7 draws=0
+iter=391/500 games=75072 samples=5900 turns=42.1 wins=40.1% / 31.8% / 28.1% policyLoss=-0.0015 valueLoss=0.1208 entropy=0.259
+iter=392/500 games=75264 samples=5905 turns=43.1 wins=43.8% / 25.5% / 30.7% policyLoss=-0.0004 valueLoss=0.1275 entropy=0.260
+iter=393/500 games=75456 samples=6157 turns=42.0 wins=37.0% / 32.8% / 30.2% policyLoss=0.0001 valueLoss=0.1333 entropy=0.231
+iter=394/500 games=75648 samples=5996 turns=43.1 wins=43.2% / 27.1% / 29.7% policyLoss=-0.0005 valueLoss=0.1223 entropy=0.238
+iter=395/500 games=75840 samples=5899 turns=42.7 wins=46.4% / 34.4% / 19.3% policyLoss=0.0027 valueLoss=0.1201 entropy=0.269
+iter=396/500 games=76032 samples=5935 turns=44.3 wins=38.5% / 35.9% / 25.5% policyLoss=-0.0018 valueLoss=0.1512 entropy=0.244
+iter=397/500 games=76224 samples=5924 turns=43.6 wins=42.2% / 32.8% / 25.0% policyLoss=-0.0009 valueLoss=0.1452 entropy=0.266
+iter=398/500 games=76416 samples=6023 turns=42.6 wins=40.1% / 29.2% / 30.7% policyLoss=-0.0006 valueLoss=0.1461 entropy=0.240
+iter=399/500 games=76608 samples=5991 turns=41.9 wins=40.6% / 29.2% / 30.2% policyLoss=-0.0013 valueLoss=0.1323 entropy=0.231
+iter=400/500 games=76800 samples=5889 turns=41.9 wins=44.8% / 25.0% / 30.2% policyLoss=-0.0010 valueLoss=0.1266 entropy=0.230
+stat-eval iter=400 rlWin=100.0% avgTurns=35.6 draws=0
+iter=401/500 games=76992 samples=5640 turns=42.3 wins=43.2% / 32.8% / 24.0% policyLoss=-0.0005 valueLoss=0.1572 entropy=0.213
+iter=402/500 games=77184 samples=6467 turns=43.9 wins=35.4% / 37.5% / 27.1% policyLoss=-0.0002 valueLoss=0.1150 entropy=0.188
+iter=403/500 games=77376 samples=5900 turns=42.9 wins=39.1% / 39.1% / 21.9% policyLoss=-0.0013 valueLoss=0.1299 entropy=0.209
+iter=404/500 games=77568 samples=5806 turns=43.3 wins=39.1% / 27.6% / 33.3% policyLoss=-0.0006 valueLoss=0.1248 entropy=0.203
+iter=405/500 games=77760 samples=6476 turns=44.2 wins=36.5% / 32.3% / 31.3% policyLoss=-0.0006 valueLoss=0.1028 entropy=0.196
+iter=406/500 games=77952 samples=6324 turns=44.2 wins=38.5% / 33.3% / 28.1% policyLoss=-0.0021 valueLoss=0.1101 entropy=0.190
+iter=407/500 games=78144 samples=6153 turns=44.3 wins=39.1% / 31.3% / 29.7% policyLoss=-0.0007 valueLoss=0.1186 entropy=0.210
+iter=408/500 games=78336 samples=6559 turns=45.3 wins=36.5% / 29.2% / 34.4% policyLoss=-0.0008 valueLoss=0.1044 entropy=0.187
+iter=409/500 games=78528 samples=6211 turns=44.1 wins=38.0% / 38.5% / 23.4% policyLoss=0.0007 valueLoss=0.1231 entropy=0.204
+iter=410/500 games=78720 samples=5950 turns=43.8 wins=29.7% / 38.5% / 31.8% policyLoss=-0.0005 valueLoss=0.1133 entropy=0.193
+stat-eval iter=410 rlWin=99.0% avgTurns=36.8 draws=0
+iter=411/500 games=78912 samples=6335 turns=43.8 wins=35.9% / 33.9% / 30.2% policyLoss=-0.0002 valueLoss=0.1120 entropy=0.215
+iter=412/500 games=79104 samples=6272 turns=43.6 wins=34.4% / 37.0% / 28.6% policyLoss=0.0014 valueLoss=0.1136 entropy=0.217
+iter=413/500 games=79296 samples=6386 turns=42.3 wins=38.0% / 32.3% / 29.7% policyLoss=-0.0009 valueLoss=0.1134 entropy=0.209
+iter=414/500 games=79488 samples=6542 turns=45.1 wins=31.8% / 37.0% / 31.3% policyLoss=-0.0000 valueLoss=0.1253 entropy=0.222
+iter=415/500 games=79680 samples=6133 turns=44.4 wins=31.3% / 35.9% / 32.8% policyLoss=-0.0002 valueLoss=0.1140 entropy=0.215
+iter=416/500 games=79872 samples=6295 turns=44.0 wins=34.4% / 38.5% / 27.1% policyLoss=0.0003 valueLoss=0.1021 entropy=0.225
+iter=417/500 games=80064 samples=6218 turns=43.7 wins=32.3% / 31.3% / 36.5% policyLoss=-0.0011 valueLoss=0.1198 entropy=0.230
+iter=418/500 games=80256 samples=6305 turns=44.6 wins=34.9% / 33.3% / 31.8% policyLoss=-0.0010 valueLoss=0.1061 entropy=0.237
+iter=419/500 games=80448 samples=6181 turns=43.8 wins=35.9% / 30.2% / 33.9% policyLoss=-0.0008 valueLoss=0.1175 entropy=0.226
+iter=420/500 games=80640 samples=6224 turns=41.7 wins=36.5% / 26.0% / 37.5% policyLoss=-0.0014 valueLoss=0.1192 entropy=0.232
+stat-eval iter=420 rlWin=95.5% avgTurns=39.0 draws=0
+iter=421/500 games=80832 samples=6599 turns=45.4 wins=29.7% / 43.2% / 27.1% policyLoss=0.0014 valueLoss=0.0982 entropy=0.209
+iter=422/500 games=81024 samples=6802 turns=45.3 wins=35.4% / 33.3% / 31.3% policyLoss=-0.0011 valueLoss=0.1065 entropy=0.243
+iter=423/500 games=81216 samples=5747 turns=43.3 wins=34.4% / 41.7% / 24.0% policyLoss=0.0024 valueLoss=0.1388 entropy=0.288
+iter=424/500 games=81408 samples=6162 turns=44.2 wins=27.6% / 40.1% / 32.3% policyLoss=-0.0016 valueLoss=0.1304 entropy=0.226
+iter=425/500 games=81600 samples=6641 turns=44.6 wins=30.7% / 42.7% / 26.6% policyLoss=-0.0005 valueLoss=0.1143 entropy=0.227
+iter=426/500 games=81792 samples=6103 turns=41.8 wins=30.7% / 34.4% / 34.9% policyLoss=0.0021 valueLoss=0.0977 entropy=0.306
+iter=427/500 games=81984 samples=6031 turns=42.5 wins=37.0% / 31.3% / 31.8% policyLoss=-0.0015 valueLoss=0.1307 entropy=0.294
+iter=428/500 games=82176 samples=5984 turns=45.1 wins=33.9% / 32.8% / 33.3% policyLoss=-0.0006 valueLoss=0.1425 entropy=0.274
+iter=429/500 games=82368 samples=5619 turns=44.5 wins=29.2% / 43.8% / 27.1% policyLoss=0.0017 valueLoss=0.1483 entropy=0.296
+iter=430/500 games=82560 samples=6246 turns=45.6 wins=32.8% / 41.7% / 25.5% policyLoss=-0.0002 valueLoss=0.1338 entropy=0.289
+stat-eval iter=430 rlWin=97.0% avgTurns=35.0 draws=0
+iter=431/500 games=82752 samples=5892 turns=44.6 wins=33.9% / 32.3% / 33.9% policyLoss=-0.0013 valueLoss=0.1232 entropy=0.281
+iter=432/500 games=82944 samples=6072 turns=43.7 wins=35.4% / 30.7% / 33.9% policyLoss=-0.0008 valueLoss=0.1122 entropy=0.233
+iter=433/500 games=83136 samples=6124 turns=44.6 wins=41.1% / 28.1% / 30.7% policyLoss=0.0004 valueLoss=0.1103 entropy=0.273
+iter=434/500 games=83328 samples=6101 turns=43.8 wins=38.0% / 31.8% / 30.2% policyLoss=0.0002 valueLoss=0.1039 entropy=0.275
+iter=435/500 games=83520 samples=6316 turns=46.0 wins=32.3% / 37.0% / 30.7% policyLoss=0.0033 valueLoss=0.1065 entropy=0.278
+iter=436/500 games=83712 samples=6440 turns=45.8 wins=35.9% / 37.0% / 27.1% policyLoss=-0.0014 valueLoss=0.0966 entropy=0.283
+iter=437/500 games=83904 samples=6052 turns=43.8 wins=33.3% / 43.8% / 22.9% policyLoss=-0.0001 valueLoss=0.1279 entropy=0.335
+iter=438/500 games=84096 samples=6569 turns=44.0 wins=37.5% / 38.5% / 24.0% policyLoss=0.0022 valueLoss=0.1065 entropy=0.330
+iter=439/500 games=84288 samples=6391 turns=45.0 wins=32.8% / 32.3% / 34.9% policyLoss=-0.0017 valueLoss=0.1150 entropy=0.314
+iter=440/500 games=84480 samples=6283 turns=45.6 wins=25.0% / 38.5% / 36.5% policyLoss=0.0009 valueLoss=0.1258 entropy=0.315
+stat-eval iter=440 rlWin=99.5% avgTurns=37.9 draws=0
+iter=441/500 games=84672 samples=6508 turns=46.3 wins=30.7% / 35.9% / 33.3% policyLoss=-0.0007 valueLoss=0.1091 entropy=0.324
+iter=442/500 games=84864 samples=6202 turns=44.6 wins=32.8% / 38.0% / 29.2% policyLoss=-0.0011 valueLoss=0.1158 entropy=0.337
+iter=443/500 games=85056 samples=6286 turns=45.9 wins=33.3% / 35.9% / 30.7% policyLoss=0.0002 valueLoss=0.1249 entropy=0.297
+iter=444/500 games=85248 samples=6239 turns=44.5 wins=33.3% / 29.7% / 37.0% policyLoss=-0.0003 valueLoss=0.1193 entropy=0.249
+iter=445/500 games=85440 samples=6311 turns=46.1 wins=41.1% / 27.6% / 31.3% policyLoss=0.0014 valueLoss=0.1195 entropy=0.304
+iter=446/500 games=85632 samples=6288 turns=43.3 wins=25.5% / 43.2% / 31.3% policyLoss=-0.0008 valueLoss=0.1152 entropy=0.273
+iter=447/500 games=85824 samples=6229 turns=45.3 wins=29.7% / 31.8% / 38.5% policyLoss=-0.0002 valueLoss=0.1304 entropy=0.246
+iter=448/500 games=86016 samples=6007 turns=42.7 wins=34.9% / 37.0% / 28.1% policyLoss=0.0004 valueLoss=0.1174 entropy=0.265
+iter=449/500 games=86208 samples=6306 turns=45.0 wins=35.9% / 34.9% / 29.2% policyLoss=-0.0010 valueLoss=0.1084 entropy=0.282
+iter=450/500 games=86400 samples=5981 turns=44.1 wins=37.5% / 33.9% / 28.6% policyLoss=-0.0003 valueLoss=0.1298 entropy=0.280
+stat-eval iter=450 rlWin=95.5% avgTurns=37.3 draws=0
+iter=451/500 games=86592 samples=6100 turns=45.1 wins=29.7% / 38.5% / 31.8% policyLoss=0.0003 valueLoss=0.1211 entropy=0.265
+iter=452/500 games=86784 samples=6159 turns=44.9 wins=30.7% / 30.7% / 38.5% policyLoss=-0.0002 valueLoss=0.1126 entropy=0.253
+iter=453/500 games=86976 samples=6667 turns=46.3 wins=34.9% / 32.3% / 32.8% policyLoss=-0.0010 valueLoss=0.1147 entropy=0.269
+iter=454/500 games=87168 samples=6946 turns=47.3 wins=30.7% / 37.0% / 32.3% policyLoss=0.0014 valueLoss=0.1047 entropy=0.274
+iter=455/500 games=87360 samples=5914 turns=44.4 wins=35.9% / 29.7% / 34.4% policyLoss=-0.0012 valueLoss=0.1558 entropy=0.281
+iter=456/500 games=87552 samples=6382 turns=45.4 wins=27.6% / 35.9% / 36.5% policyLoss=-0.0011 valueLoss=0.1157 entropy=0.272
+iter=457/500 games=87744 samples=6340 turns=46.1 wins=31.8% / 32.8% / 35.4% policyLoss=-0.0003 valueLoss=0.1200 entropy=0.244
+iter=458/500 games=87936 samples=6258 turns=45.1 wins=25.0% / 38.5% / 36.5% policyLoss=-0.0026 valueLoss=0.1204 entropy=0.223
+iter=459/500 games=88128 samples=6128 turns=44.3 wins=25.5% / 34.9% / 39.6% policyLoss=0.0010 valueLoss=0.1357 entropy=0.221
+iter=460/500 games=88320 samples=5864 turns=43.5 wins=38.0% / 30.7% / 31.3% policyLoss=0.0007 valueLoss=0.1122 entropy=0.250
+stat-eval iter=460 rlWin=96.0% avgTurns=40.8 draws=0
+iter=461/500 games=88512 samples=6236 turns=46.3 wins=28.1% / 31.3% / 40.6% policyLoss=-0.0010 valueLoss=0.1204 entropy=0.227
+iter=462/500 games=88704 samples=6066 turns=45.9 wins=31.3% / 38.0% / 30.7% policyLoss=-0.0010 valueLoss=0.1212 entropy=0.221
+iter=463/500 games=88896 samples=6201 turns=43.3 wins=27.6% / 34.4% / 38.0% policyLoss=-0.0016 valueLoss=0.1386 entropy=0.200
+iter=464/500 games=89088 samples=5646 turns=42.6 wins=32.3% / 37.5% / 30.2% policyLoss=-0.0017 valueLoss=0.1061 entropy=0.243
+iter=465/500 games=89280 samples=6346 turns=46.8 wins=35.4% / 32.3% / 32.3% policyLoss=0.0007 valueLoss=0.1327 entropy=0.202
+iter=466/500 games=89472 samples=5937 turns=43.9 wins=35.4% / 28.6% / 35.9% policyLoss=0.0003 valueLoss=0.1301 entropy=0.224
+iter=467/500 games=89664 samples=6438 turns=45.7 wins=35.9% / 32.8% / 31.3% policyLoss=-0.0006 valueLoss=0.1199 entropy=0.265
+iter=468/500 games=89856 samples=6229 turns=43.6 wins=36.5% / 34.4% / 29.2% policyLoss=-0.0008 valueLoss=0.1083 entropy=0.249
+iter=469/500 games=90048 samples=6255 turns=43.1 wins=35.9% / 38.5% / 25.5% policyLoss=0.0025 valueLoss=0.1160 entropy=0.279
+iter=470/500 games=90240 samples=6135 turns=45.0 wins=30.7% / 33.9% / 35.4% policyLoss=-0.0005 valueLoss=0.1151 entropy=0.268
+stat-eval iter=470 rlWin=100.0% avgTurns=36.9 draws=0
+iter=471/500 games=90432 samples=5965 turns=42.4 wins=35.4% / 39.6% / 25.0% policyLoss=0.0033 valueLoss=0.1232 entropy=0.325
+iter=472/500 games=90624 samples=6045 turns=42.9 wins=34.9% / 35.4% / 29.7% policyLoss=-0.0031 valueLoss=0.1099 entropy=0.308
+iter=473/500 games=90816 samples=6254 turns=43.3 wins=32.3% / 37.5% / 30.2% policyLoss=-0.0007 valueLoss=0.1150 entropy=0.261
+iter=474/500 games=91008 samples=5964 turns=42.6 wins=36.5% / 35.9% / 27.6% policyLoss=0.0022 valueLoss=0.1046 entropy=0.261
+iter=475/500 games=91200 samples=6148 turns=44.8 wins=37.0% / 40.1% / 22.9% policyLoss=0.0008 valueLoss=0.1169 entropy=0.322
+iter=476/500 games=91392 samples=6288 turns=43.1 wins=35.4% / 30.7% / 33.9% policyLoss=-0.0021 valueLoss=0.1175 entropy=0.268
+iter=477/500 games=91584 samples=5882 turns=41.2 wins=32.8% / 43.8% / 23.4% policyLoss=0.0023 valueLoss=0.1086 entropy=0.330
+iter=478/500 games=91776 samples=6079 turns=44.3 wins=41.7% / 36.5% / 21.9% policyLoss=0.0016 valueLoss=0.1122 entropy=0.318
+iter=479/500 games=91968 samples=6116 turns=42.1 wins=33.9% / 40.1% / 26.0% policyLoss=-0.0011 valueLoss=0.1181 entropy=0.335
+iter=480/500 games=92160 samples=6133 turns=43.0 wins=36.5% / 34.9% / 28.6% policyLoss=-0.0011 valueLoss=0.1350 entropy=0.366
+stat-eval iter=480 rlWin=100.0% avgTurns=35.8 draws=0
+iter=481/500 games=92352 samples=6049 turns=42.8 wins=41.1% / 35.9% / 22.9% policyLoss=-0.0013 valueLoss=0.1310 entropy=0.293
+iter=482/500 games=92544 samples=5852 turns=44.2 wins=33.9% / 33.3% / 32.8% policyLoss=0.0001 valueLoss=0.1248 entropy=0.349
+iter=483/500 games=92736 samples=5551 turns=41.7 wins=40.1% / 34.9% / 25.0% policyLoss=-0.0011 valueLoss=0.1549 entropy=0.373
+iter=484/500 games=92928 samples=6061 turns=42.3 wins=38.0% / 34.9% / 27.1% policyLoss=0.0009 valueLoss=0.1296 entropy=0.348
+iter=485/500 games=93120 samples=6089 turns=42.2 wins=37.0% / 38.0% / 25.0% policyLoss=-0.0008 valueLoss=0.1311 entropy=0.344
+iter=486/500 games=93312 samples=6033 turns=42.0 wins=42.2% / 29.2% / 28.6% policyLoss=0.0028 valueLoss=0.1306 entropy=0.341
+iter=487/500 games=93504 samples=5902 turns=43.0 wins=42.2% / 34.4% / 23.4% policyLoss=-0.0017 valueLoss=0.1242 entropy=0.382
+iter=488/500 games=93696 samples=6322 turns=43.7 wins=33.9% / 37.0% / 29.2% policyLoss=0.0043 valueLoss=0.1155 entropy=0.362
+iter=489/500 games=93888 samples=6180 turns=43.7 wins=37.5% / 34.9% / 27.6% policyLoss=-0.0002 valueLoss=0.1172 entropy=0.352
+iter=490/500 games=94080 samples=6436 turns=43.3 wins=40.1% / 35.4% / 24.5% policyLoss=-0.0016 valueLoss=0.0980 entropy=0.307
+stat-eval iter=490 rlWin=100.0% avgTurns=39.2 draws=0
+iter=491/500 games=94272 samples=6190 turns=44.2 wins=44.8% / 32.3% / 22.9% policyLoss=-0.0001 valueLoss=0.1140 entropy=0.352
+iter=492/500 games=94464 samples=6087 turns=42.1 wins=35.9% / 31.8% / 32.3% policyLoss=0.0039 valueLoss=0.1041 entropy=0.387
+iter=493/500 games=94656 samples=6023 turns=42.3 wins=39.1% / 36.5% / 24.5% policyLoss=-0.0009 valueLoss=0.1276 entropy=0.359
+iter=494/500 games=94848 samples=6498 turns=44.7 wins=39.6% / 34.4% / 26.0% policyLoss=0.0001 valueLoss=0.1065 entropy=0.342
+iter=495/500 games=95040 samples=6390 turns=43.1 wins=32.3% / 41.7% / 26.0% policyLoss=-0.0003 valueLoss=0.1140 entropy=0.328
+iter=496/500 games=95232 samples=6225 turns=44.7 wins=34.9% / 34.4% / 30.7% policyLoss=0.0007 valueLoss=0.1051 entropy=0.351
+iter=497/500 games=95424 samples=6151 turns=44.0 wins=39.6% / 32.3% / 28.1% policyLoss=0.0008 valueLoss=0.1436 entropy=0.347
+iter=498/500 games=95616 samples=6131 turns=43.7 wins=37.0% / 33.3% / 29.7% policyLoss=-0.0014 valueLoss=0.1235 entropy=0.287
+iter=499/500 games=95808 samples=5753 turns=42.3 wins=45.3% / 26.6% / 28.1% policyLoss=0.0016 valueLoss=0.1128 entropy=0.367
+iter=500/500 games=96000 samples=5914 turns=41.9 wins=32.3% / 34.4% / 33.3% policyLoss=-0.0006 valueLoss=0.1432 entropy=0.310
+stat-eval iter=500 rlWin=99.5% avgTurns=37.2 draws=0
+saved /Users/eunalee/Documents/GitHub/coup-ai-agent/models/ppo-agent.json
+best vs statistical: 100.0% at iter 90 → /Users/eunalee/Documents/GitHub/coup-ai-agent/models/ppo-agent-best-statistical.json
+Run: npm run evaluate:statistical -- --model /Users/eunalee/Documents/GitHub/coup-ai-agent/models/ppo-agent-best-statistical.json --games 5000 --players all
