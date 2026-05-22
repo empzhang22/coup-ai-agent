@@ -73,7 +73,7 @@ test("statistical masked agent completes games with legal actions", () => {
   }
 });
 
-test("contest-aligned env completes games with RL seat 0 vs statistical", () => {
+test("contest-aligned env completes games with PPO vs statistical (rotating seat)", () => {
   const { evaluateVsStatistical } = require("../src/eval-vs-statistical");
   const agent = new NeuralPPOAgent({ seed: 55, hiddenSize: 16 });
   const stats = evaluateVsStatistical(agent, { games: 20, playerCount: 3, seed: 9000 });

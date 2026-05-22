@@ -41,7 +41,7 @@ console.log(
   `training: iterations=${iterations} games/iter=${gamesPerIteration} players=${playerCount} ` +
   `curriculumEnd=${curriculumEnd} evalStatGames=${evalStatGames}`
 );
-console.log(`learner seat: 0 (matches browser AI 1 = RL)`);
+console.log(`learner seat: random 0..${playerCount - 1} each game (any contest seat)`);
 console.log(`opponent mix: early 50% random / 30% self-play / 20% statistical → late 10% / 25% / 65%`);
 
 for (let iteration = 1; iteration <= iterations; iteration++) {
@@ -168,7 +168,7 @@ function pickOpponentType(rng, weights, hasSnapshots) {
 function buildOpponentLineup({ learner, snapshots, playerCount, iteration, curriculumEnd, rng, seed }) {
   const weights = opponentMixWeights(iteration, curriculumEnd);
   const lineup = Array(playerCount).fill(null);
-  const learnerSeat = 0;
+  const learnerSeat = Math.floor(rng() * playerCount);
   lineup[learnerSeat] = learner;
 
   for (let id = 0; id < playerCount; id++) {

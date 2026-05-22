@@ -28,7 +28,12 @@ let totalRlWins = 0;
 let totalGames = 0;
 
 for (const playerCount of playerCounts) {
-  const stats = evaluateVsStatistical(rlAgent, { games, playerCount, seed: seed + playerCount * 100000 });
+  const stats = evaluateVsStatistical(rlAgent, {
+    games,
+    playerCount,
+    seed: seed + playerCount * 100000,
+    rotateSeat: !args["no-rotate-seat"]
+  });
   totalRlWins += stats.rlWins;
   totalGames += stats.games;
 

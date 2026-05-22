@@ -5,18 +5,20 @@ const { StatisticalMaskedAgent } = require("./statistical-agent");
 const { encodeLegalMask, encodeObservation } = require("./encoder");
 
 /**
- * Play games with RL on seat 0 (greedy) vs StatisticalMaskedAgent on all other seats.
+ * Play games with PPO (greedy) vs StatisticalMaskedAgent on all other seats.
+ * By default the PPO seat rotates each game so eval is not tied to AI 1 / seat 0.
  */
-function evaluateVsStatistical(rlAgent, { games = 1000, playerCount = 3, seed = 7000 } = {}) {
+function evaluateVsStatistical(rlAgent, { games = 1000, playerCount = 3, seed = 7000, rotateSeat = true } = {}) {
   let rlWins = 0;
   let statisticalWins = 0;
   let draws = 0;
   let totalTurns = 0;
 
   for (let game = 0; game < games; game++) {
+    const rlSeat = rotateSeat ? (seed + game) % playerCount : 0;
     const env = new CoupEnv({ playerCount, seed: seed + game });
     const agents = Array.from({ length: playerCount }, (_, id) => {
-      if (id === 0 && rlAgent) return rlAgent;
+      if (id === rlSeat && rlAgent) return rlAgent;
       return new StatisticalMaskedAgent({ playerId: id, seed: seed + game * 17 + id });
     });
 
@@ -41,7 +43,7 @@ function evaluateVsStatistical(rlAgent, { games = 1000, playerCount = 3, seed = 
     if (safety <= 0) throw new Error(`evaluateVsStatistical game ${game} exceeded safety limit`);
 
     const winner = env.winnerId();
-    if (winner === 0) rlWins++;
+    if (winner === rlSeat) rlWins++;
     else if (winner === null) draws++;
     else statisticalWins++;
     totalTurns += env.turnCount;

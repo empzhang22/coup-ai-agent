@@ -1,5 +1,7 @@
 # Coup RL Training
 
+**Design (PPO, architecture, why not REINFORCE / supervised Neural):** see [DESIGN.md](./DESIGN.md).
+
 This project now has a headless Node environment for self-play reinforcement learning. It keeps the simplified Coup rules from `aicontest.html`, but moves them into code that can run many games without the browser.
 
 ## kqw4 statistical baseline (pinned)
@@ -17,7 +19,7 @@ Verify statistical beats random (headless):
 npm run verify:statistical -- --games 2000 --players 3
 ```
 
-Evaluate an RL checkpoint vs statistical (seat 0 = RL, others = statistical):
+Evaluate a PPO checkpoint vs statistical (PPO seat rotates each game; use `--no-rotate-seat` for seat 0 only):
 
 ```bash
 npm run evaluate:statistical -- --model models/ppo-agent.json --games 1000 --players 3
@@ -34,7 +36,7 @@ npm run evaluate:statistical -- --model models/ppo-agent.json --games 1000 --pla
 - `scripts/train-ppo.js`: serious self-play training loop with frozen snapshots and baseline opponents.
 - `scripts/train-rl.js`: simple linear training loop.
 - `scripts/export-browser-model.js`: converts a trained PPO JSON checkpoint into `models/ppo-browser-model.js` for `aicontest.html`.
-- `rl-ai.js`: browser `AIEngine` wrapper that lets the trained model compete in the existing contest page.
+- `ppo-ai.js`: browser `AIEngine` wrapper that lets the trained PPO model compete in the existing contest page.
 - `scripts/evaluate-rl.js`: evaluates a saved model against random and heuristic baselines.
 - `scripts/verify-statistical-baseline.js`: statistical vs random (primary baseline sanity check).
 - `scripts/evaluate-vs-statistical.js`: RL vs statistical win rate.
@@ -93,7 +95,7 @@ Training defaults in `scripts/train-ppo.js`:
 
 | Setting | Value |
 |---------|--------|
-| Learner seat | **0** (browser AI 1) |
+| Learner seat | **Random** each game (works on any AI 1–5 slot in contest) |
 | Players | **3** |
 | Opponent mix early | 50% random / 30% self-play / 20% statistical |
 | Opponent mix late | **10% / 25% / 65%** |
@@ -106,7 +108,7 @@ npm run train:full
 npm run export:browser -- --model models/ppo-agent-v2-best-statistical.json --out models/ppo-browser-model.js
 ```
 
-Each `--eval-every` checkpoint is scored with `evaluateVsStatistical` (RL seat 0 vs statistical). The best checkpoint is saved as `models/ppo-agent-best-statistical.json` — **use this for reporting**, not the final `ppo-agent.json` unless it wins on eval.
+Each `--eval-every` checkpoint is scored with `evaluateVsStatistical` (PPO seat rotates vs statistical). The best checkpoint is saved as `*-best-statistical.json` — **use this for reporting**, not the final `ppo-agent.json` unless it wins on eval.
 
 Retrain from scratch (old checkpoints are incompatible):
 
@@ -148,6 +150,6 @@ After training, export the model for `aicontest.html`:
 node scripts/export-browser-model.js --model models/ppo-agent.json --out models/ppo-browser-model.js
 ```
 
-Then open `aicontest.html` and choose `RL PPO AI (Trained Model)` for one or more players.
+Then open `aicontest.html` and choose `PPO AI (Trained Model)` for one or more players.
 
 The repository includes a tiny smoke-trained browser model so the dropdown works immediately. It is not competitive. Replace it by exporting a long-trained checkpoint before using the agent in your MEng comparisons.

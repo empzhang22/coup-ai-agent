@@ -243,6 +243,7 @@
                         <button type="button" onclick="setAllAI('random')" style="flex: 1; min-width: 120px; padding: 8px; background: #6c757d; color: white; border: none; border-radius: 5px; cursor: pointer; font-size: 14px;">All Random</button>
                         <button type="button" onclick="setAllAI('statistical')" style="flex: 1; min-width: 120px; padding: 8px; background: #6c757d; color: white; border: none; border-radius: 5px; cursor: pointer; font-size: 14px;">All Statistical</button>
                         <button type="button" onclick="setAllAI('minimax')" style="flex: 1; min-width: 120px; padding: 8px; background: #6c757d; color: white; border: none; border-radius: 5px; cursor: pointer; font-size: 14px;">All Challenger</button>
+                        <button type="button" onclick="setAllAI('ppo')" style="flex: 1; min-width: 120px; padding: 8px; background: #6c757d; color: white; border: none; border-radius: 5px; cursor: pointer; font-size: 14px;">All PPO</button>
                         <button type="button" onclick="setFaceOff()" style="flex: 1; min-width: 120px; padding: 8px; background: #007bff; color: white; border: none; border-radius: 5px; cursor: pointer; font-size: 14px;">Face-Off (One Each)</button>
                     </div>
                 </div>
@@ -308,7 +309,7 @@
         }
 
         function getAITypeName(aiType) {
-            const names = { 'random': 'Random', 'statistical': 'Statistical', 'minimax': 'Challenger', 'minimax_legacy': 'Minimax (Legacy)', 'rl': 'RL PPO' };
+            const names = { 'random': 'Random', 'statistical': 'Statistical', 'minimax': 'Challenger', 'minimax_legacy': 'Minimax (Legacy)', 'ppo': 'PPO' };
             return names[aiType] || aiType;
         }
 
@@ -371,7 +372,7 @@
     <script src="challenger-ai.js"></script>
     <script src="minimax-ai.js"></script>
     <script src="models/ppo-browser-model.js"></script>
-    <script src="rl-ai.js"></script>
+    <script src="ppo-ai.js"></script>
 
     <script>
         // Note: AI Engine classes (ProbabilityCalculator, AIEngine, RandomAI, StatisticalAI, ChallengerAI)
@@ -395,7 +396,7 @@
                         <option value="statistical">Statistical AI (Probability-Based)</option>
                         <option value="minimax">Challenger AI (Game Tree Search)</option>
                         <option value="minimax_legacy">Minimax AI (Legacy)</option>
-                        <option value="rl">RL PPO AI (Trained Model)</option>
+                        <option value="ppo">PPO AI (Trained Model)</option>
                     </select>
                 `;
                 container.appendChild(wrapper);
@@ -523,8 +524,8 @@
                     case 'minimax_legacy':
                         aiEngine = new MinimaxAI(i, aiType);
                         break;
-                    case 'rl':
-                        aiEngine = new RLAI(i, aiType);
+                    case 'ppo':
+                        aiEngine = new PPOAI(i, aiType);
                         break;
                     default:
                         aiEngine = new RandomAI(i, aiType);
