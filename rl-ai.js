@@ -26,7 +26,12 @@ class RLAI extends AIEngine {
     }
 
     decideChallengeBlock(action, blockerId, blockChar, gameState, gameHistory) {
-        return this.decideChallengeAction(`block-${action}`, blockerId, gameState, gameHistory);
+        const chosen = this.chooseMaskedAction("challenge_block", this.playerId, gameState, gameHistory, {
+            blockerId,
+            blockChar,
+            action
+        });
+        return chosen === "challenge";
     }
 
     decideBlockAction(action, actorId, gameState, gameHistory) {
@@ -87,7 +92,7 @@ class RLAI extends AIEngine {
             return actions;
         }
 
-        if (type === "challenge") return ["pass", "challenge"];
+        if (type === "challenge" || type === "challenge_block") return ["pass", "challenge"];
 
         if (type === "block") {
             if (extra.action === "foreign-aid") return ["pass", "block:duke"];
@@ -188,7 +193,7 @@ class RLAI extends AIEngine {
 
 const RL_CHARACTERS = ["duke", "assassin", "captain", "ambassador", "contessa"];
 const RL_MAX_PLAYERS = 5;
-const RL_DECISION_TYPES = ["main", "challenge", "block"];
+const RL_DECISION_TYPES = ["main", "challenge", "block", "challenge_block"];
 const RL_ACTIONS = [
     "income",
     "foreign-aid",

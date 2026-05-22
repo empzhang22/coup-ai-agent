@@ -43,6 +43,9 @@ class CoupEnv {
     }));
 
     this.currentPlayerIndex = Math.floor(this.rng() * this.playerCount);
+    if (this.playerCount === 2) {
+      this.players[this.currentPlayerIndex].coins = 1;
+    }
     this.turnCount = 0;
     this.gameOver = false;
     this.pendingAction = null;
@@ -100,6 +103,10 @@ class CoupEnv {
       return ["pass", ...blockCardsForAction(this.pendingAction.action).map(card => `block:${card}`)];
     }
 
+    if (this.decision.type === "challenge_block") {
+      return ["pass", "challenge"];
+    }
+
     return [];
   }
 
@@ -154,6 +161,7 @@ class CoupEnv {
     if (this.decision.type === "main") this.applyMainAction(action);
     else if (this.decision.type === "challenge") this.applyChallengeDecision(action);
     else if (this.decision.type === "block") this.applyBlockDecision(action);
+    else if (this.decision.type === "challenge_block") this.applyChallengeBlockDecision(action);
     else {
       throw new Error(`Unexpected decision type: ${this.decision.type}`);
     }
@@ -197,6 +205,10 @@ class CoupEnv {
     };
 
     this.log(`Turn ${this.turnCount}: Player ${player.id + 1} chooses ${actionId}`);
+
+    if (parsed.action === "assassinate") {
+      player.coins -= 3;
+    }
 
     if (requiredCardForAction(parsed.action)) {
       this.advanceChallengeOrResolution();
@@ -244,13 +256,47 @@ class CoupEnv {
     const card = action.split(":")[1];
     this.pendingAction.blockClaim = card;
     this.pendingAction.blockPlayerId = this.decision.playerId;
-    this.history.recordAction(this.turnCount, this.pendingAction.playerId, this.pendingAction.action, {
-      blocked: true,
-      blockClaim: card,
-      success: false
-    });
-    this.pendingAction = null;
-    this.nextTurn();
+    this.decision = {
+      type: "challenge_block",
+      playerId: this.pendingAction.playerId,
+      blockerId: this.pendingAction.blockPlayerId,
+      blockChar: card
+    };
+  }
+
+  applyChallengeBlockDecision(action) {
+    const actorId = this.decision.playerId;
+    const blockerId = this.decision.blockerId;
+    const blockChar = this.decision.blockChar;
+    const actionName = this.pendingAction.action;
+
+    if (action === "pass") {
+      this.history.recordAction(this.turnCount, this.pendingAction.playerId, actionName, {
+        blocked: true,
+        success: false
+      });
+      this.pendingAction = null;
+      this.nextTurn();
+      return;
+    }
+
+    const blockFailed = this.resolveBlockChallenge(actorId, blockerId, blockChar);
+    this.history.recordChallenge(actorId, blockerId, `block-${actionName}`, blockFailed);
+
+    if (!blockFailed) {
+      this.history.recordAction(this.turnCount, this.pendingAction.playerId, actionName, {
+        blocked: true,
+        success: false
+      });
+      this.pendingAction = null;
+      this.nextTurn();
+      return;
+    }
+
+    this.pendingAction.blockCursor++;
+    this.pendingAction.blockClaim = null;
+    this.pendingAction.blockPlayerId = null;
+    this.advanceBlockOrResolution();
   }
 
   advanceChallengeOrResolution() {
@@ -310,6 +356,28 @@ class CoupEnv {
     this.forceReveal(challenger, () => this.advanceBlockOrResolution());
   }
 
+  resolveBlockChallenge(challengerId, blockerId, blockChar) {
+    const blocker = this.players[blockerId];
+    const challenger = this.players[challengerId];
+    const hasCard = blocker.cards.some(c => !c.revealed && c.character === blockChar);
+
+    if (hasCard) {
+      this.log(`Block challenge by Player ${challengerId + 1} fails`);
+      const cardIndex = blocker.cards.findIndex(c => !c.revealed && c.character === blockChar);
+      this.replaceClaimedCard(blocker, cardIndex);
+      this.lastRewards[blockerId] += 0.05;
+      this.lastRewards[challengerId] -= 0.05;
+      this.forceReveal(challenger, () => {});
+      return false;
+    }
+
+    this.log(`Block challenge by Player ${challengerId + 1} succeeds`);
+    this.lastRewards[blockerId] -= 0.05;
+    this.lastRewards[challengerId] += 0.05;
+    this.forceReveal(blocker, () => {});
+    return true;
+  }
+
   resolveSuccessfulChallenge(challengerId, claimantId, action) {
     const claimant = this.players[claimantId];
     this.log(`Challenge by Player ${challengerId + 1} succeeds`);
@@ -335,7 +403,6 @@ class CoupEnv {
       this.forceReveal(this.players[targetId], () => this.afterActionResolved());
       return;
     } else if (action === "assassinate") {
-      player.coins -= 3;
       this.forceReveal(this.players[targetId], () => this.afterActionResolved());
       return;
     } else if (action === "steal") {

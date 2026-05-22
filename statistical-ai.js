@@ -112,6 +112,35 @@ class ParticleBeliefTracker {
         return probs;
     }
 
+    sampleParticleWorld() {
+        if (!this.particles || this.particles.length === 0) return null;
+
+        // Normalize weights just in case
+        this._normalizeWeights();
+
+        const cdf = [];
+        let acc = 0;
+        for (const p of this.particles) {
+            acc += p.w;
+            cdf.push(acc);
+        }
+
+        const u = this._rng() * acc;
+        let i = 0;
+        while (u > cdf[i]) {
+            i++;
+        }
+        
+        const sampledParticle = this.particles[i];
+        if (!sampledParticle) return null;
+
+        // Return a deep copy to prevent mutation of the particle itself
+        return {
+            hands: sampledParticle.hands.map(h => h.slice()),
+            deck: sampledParticle.deck.slice()
+        };
+    }
+
     // --- Initialization (public info -> initial belief) ---
 
     _initFromPublicState(gameState, gameHistory) {
@@ -279,16 +308,14 @@ class ParticleBeliefTracker {
         const n = hand.length;
         if (n <= 0) return;
 
-        // Return current hidden cards to deck
-        for (const c of hand) p.deck.push(c);
+        const pool = hand.slice();
+        for (let i = 0; i < 2 && p.deck.length > 0; i++) {
+            pool.push(p.deck.pop());
+        }
 
-        this._shuffle(p.deck);
-
-        // Draw n new cards
-        const drawn = [];
-        for (let i = 0; i < n && p.deck.length > 0; i++) drawn.push(p.deck.pop());
-
-        p.hands[claimantIdx] = drawn;
+        this._shuffle(pool);
+        p.hands[claimantIdx] = pool.slice(0, n);
+        p.deck.push(...pool.slice(n));
         this._shuffle(p.deck);
     }
 
@@ -612,7 +639,7 @@ class StatisticalAI extends AIEngine {
     }
 
     isWinningMove(actionObj, gameState) {
-        if (!['coup', 'assassinate'].includes(actionObj.action)) return false;
+        if (actionObj.action !== 'coup') return false;
         if (actionObj.targetId === undefined || actionObj.targetId === null) return false;
 
         const alive = gameState.players.filter(p => !p.eliminated);
@@ -620,7 +647,8 @@ class StatisticalAI extends AIEngine {
 
         const targetIdx = this._coerceToIndex(gameState, actionObj.targetId);
         const target = targetIdx !== -1 ? gameState.players[targetIdx] : null;
-        return target && !target.eliminated;  // Eliminating last opponent = win
+        const targetInfluences = target ? target.cards.filter(c => !c.revealed).length : 0;
+        return target && !target.eliminated && targetInfluences === 1;
     }
 
     isSuicideMove(actionObj, player, gameState, gameHistory) {
@@ -823,7 +851,9 @@ class StatisticalAI extends AIEngine {
         const myInfluences = player.cards.filter(c => !c.revealed).length;
 
         // SPECIAL CASE: Being assassinated on last influence - must act or die
-        if (action === 'assassinate' && myInfluences === 1) {
+        // Only applies when WE are the actual target of the assassination.
+        if (action === 'assassinate' && myInfluences === 1 &&
+                gameState.pendingAction?.targetId === this.playerId) {
             const hasContessa = player.cards.some(c => !c.revealed && c.character === 'contessa');
 
             if (hasContessa) {
@@ -836,7 +866,9 @@ class StatisticalAI extends AIEngine {
         }
 
         // SPECIAL CASE: Being stolen from on last influence
-        if (action === 'steal' && myInfluences === 1) {
+        // Only applies when WE are the actual target of the steal.
+        if (action === 'steal' && myInfluences === 1 &&
+                gameState.pendingAction?.targetId === this.playerId) {
             const hasCaptain = player.cards.some(c => !c.revealed && c.character === 'captain');
             const hasAmb = player.cards.some(c => !c.revealed && c.character === 'ambassador');
 
@@ -886,19 +918,20 @@ class StatisticalAI extends AIEngine {
         const player = gameState.players[this.playerId];
         const myInfluences = player.cards.filter(c => !c.revealed).length;
 
-        // SPECIAL CASE: Being assassinated on last influence
-        if (action === 'assassinate' && myInfluences === 1) {
+        // Handle assassination: blockable by Contessa at any influence count
+        if (action === 'assassinate') {
             const hasContessa = player.cards.some(c => !c.revealed && c.character === 'contessa');
 
             if (hasContessa) {
-                // Always block with real Contessa
-                return true;
-            } else {
-                // No Contessa - bluff block is an option
-                // But challenging might be better (decided in decideChallengeAction)
-                // Bluff block ~50% of the time as alternative to challenging
+                // Last influence: life-or-death, always block
+                if (myInfluences === 1) return true;
+                // 2 influences: block with high probability to preserve both cards
+                return Math.random() < 0.88;
+            } else if (myInfluences === 1) {
+                // No Contessa on last influence: bluff-block as alternative to challenging
                 return Math.random() < 0.50;
             }
+            return false;
         }
 
         // Handle steal: blockable by Captain OR Ambassador
@@ -939,6 +972,39 @@ class StatisticalAI extends AIEngine {
         }
 
         return null;
+    }
+
+    decideChallengeBlock(action, blockerId, blockChar, gameState, gameHistory) {
+        this.belief.sync(gameState, gameHistory);
+
+        const player = gameState.players[this.playerId];
+        const myInfluences = player.cards.filter(c => !c.revealed).length;
+
+        const blockerIdx = this._coerceToIndex(gameState, blockerId);
+        if (blockerIdx === -1) return false;
+
+        const revealed = gameHistory?.revealedCards;
+        let revealedCount = 0;
+        if (Array.isArray(revealed)) {
+            for (const arr of revealed) {
+                if (!Array.isArray(arr)) continue;
+                for (const c of arr) if (c === blockChar) revealedCount++;
+            }
+        }
+        if (revealedCount >= 3) return true;
+        if (revealedCount === 2) return Math.random() < 0.55;
+
+        const pHas = this.belief.probHas(blockerIdx, blockChar);
+
+        let danger = 0;
+        if (action === 'assassinate') danger += 0.10;
+        if (action === 'steal') danger += 0.06;
+        if (myInfluences === 1) danger -= 0.10;
+
+        let threshold = 0.30 - danger;
+        threshold = Math.max(0.05, Math.min(0.90, threshold));
+
+        return pHas < threshold;
     }
 
     // --- Local helper (id/index robust) ---

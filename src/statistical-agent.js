@@ -56,6 +56,18 @@ class StatisticalMaskedAgent {
       return pickPreferredLegal(legalMask, preferred);
     }
 
+    if (decision.type === "challenge_block") {
+      const actionName = pending?.action;
+      const shouldChallenge = this.ai.decideChallengeBlock(
+        actionName,
+        decision.blockerId,
+        decision.blockChar,
+        gameState,
+        gameHistory
+      );
+      return { actionIndex: actionToIndex(shouldChallenge ? "challenge" : "pass") };
+    }
+
     return pickFirstLegal(legalMask);
   }
 }

@@ -4,8 +4,8 @@ Source repository: `/Users/eunalee/Documents/GitHub/coup`
 
 | Field | Value |
 |-------|--------|
-| Commit | `996bde8ff0e96687abf2b47b2e0babe8b1615029` |
-| Message | improved statistical agent |
+| Commit | `996bde8` (core agent) + contest `statistical-ai.js` from `coup` repo (adds `decideChallengeBlock`) |
+| Message | improved statistical agent; block-challenge API synced from contest |
 | Author | Kilian Weinberger (kqw4@cornell.edu) |
 | Date | 2026-01-25 |
 

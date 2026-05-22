@@ -85,14 +85,26 @@ node scripts/train-ppo.js --iterations 300 --games-per-iteration 128 --players 3
 node scripts/evaluate-rl.js --model models/ppo-agent.json --games 1000 --players 3
 ```
 
-## Phase 3 training (vs kqw4 statistical)
+## Improved training (contest-aligned env)
 
-Default opponent curriculum in `scripts/train-ppo.js`:
+Headless `CoupEnv` now matches `coup` contest rules: **block challenges**, assassinate cost before challenges/blocks, 2-player starting coin rule.
 
-| Phase | Random | Self-play snapshots | Statistical |
-|-------|--------|---------------------|-------------|
-| Early (iter 1) | 50% | 30% | 20% |
-| Late (after `--curriculum-end`, default 40% of run) | 15% | 40% | 45% |
+Training defaults in `scripts/train-ppo.js`:
+
+| Setting | Value |
+|---------|--------|
+| Learner seat | **0** (browser AI 1) |
+| Players | **3** |
+| Opponent mix early | 50% random / 30% self-play / 20% statistical |
+| Opponent mix late | **10% / 25% / 65%** |
+| Checkpoint metric | `evaluateVsStatistical` on aligned env |
+
+**Observation size changed** (added `challenge_block` decision type). Retrain from scratch; old `ppo-agent*.json` checkpoints are incompatible.
+
+```bash
+npm run train:full
+npm run export:browser -- --model models/ppo-agent-v2-best-statistical.json --out models/ppo-browser-model.js
+```
 
 Each `--eval-every` checkpoint is scored with `evaluateVsStatistical` (RL seat 0 vs statistical). The best checkpoint is saved as `models/ppo-agent-best-statistical.json` — **use this for reporting**, not the final `ppo-agent.json` unless it wins on eval.
 

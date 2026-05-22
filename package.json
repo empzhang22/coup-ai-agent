@@ -6,7 +6,7 @@
   "scripts": {
     "test": "node --test test/*.test.js",
     "train": "node scripts/train-ppo.js",
-    "train:full": "node scripts/train-ppo.js --iterations 500 --games-per-iteration 192 --players 3 --eval-stat-games 200 --eval-every 10 --out models/ppo-agent.json",
+    "train:full": "node scripts/train-ppo.js --iterations 500 --games-per-iteration 192 --players 3 --eval-stat-games 500 --eval-every 10 --curriculum-end 200 --out models/ppo-agent-v2.json",
     "train:linear": "node scripts/train-rl.js",
     "evaluate": "node scripts/evaluate-rl.js",
     "evaluate:statistical": "node scripts/evaluate-vs-statistical.js",

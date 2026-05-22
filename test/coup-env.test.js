@@ -73,6 +73,14 @@ test("statistical masked agent completes games with legal actions", () => {
   }
 });
 
+test("contest-aligned env completes games with RL seat 0 vs statistical", () => {
+  const { evaluateVsStatistical } = require("../src/eval-vs-statistical");
+  const agent = new NeuralPPOAgent({ seed: 55, hiddenSize: 16 });
+  const stats = evaluateVsStatistical(agent, { games: 20, playerCount: 3, seed: 9000 });
+  assert.equal(stats.games, 20);
+  assert.ok(stats.rlWinRate >= 0);
+});
+
 test("neural PPO agent only selects legal masked actions", () => {
   const env = new CoupEnv({ playerCount: 3, seed: 44 });
   const playerId = env.currentPlayerId();
